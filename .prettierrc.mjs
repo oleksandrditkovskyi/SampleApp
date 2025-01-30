@@ -1,10 +1,8 @@
-export default {
-  printWidth: 100,
-  tabWidth: 2,
-  semi: true,
-  singleQuote: true,
-  trailingComma: 'all',
+module.exports = {
   bracketSpacing: true,
-  arrowParens: 'always',
-  endOfLine: 'lf',
+  singleQuote: true,
+  tabWidth: 2,
+  arrowParens: 'avoid',
+  semi: true,
+  trailingComma: 'all',
 };

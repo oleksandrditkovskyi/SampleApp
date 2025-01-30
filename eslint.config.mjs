@@ -1,50 +1,66 @@
-import js from '@eslint/js';
-import ts from '@typescript-eslint/eslint-plugin';
-import tsParser from '@typescript-eslint/parser';
+import { fixupPluginRules } from '@eslint/compat';
 import react from 'eslint-plugin-react';
-import reactHooks from 'eslint-plugin-react-hooks';
-import importPlugin from 'eslint-plugin-import';
-import prettier from 'eslint-plugin-prettier';
+import reactNative from 'eslint-plugin-react-native';
+import simpleImportSort from 'eslint-plugin-simple-import-sort';
+import ts from 'typescript-eslint';
 
-export default [
-  js.configs.recommended,
+export default ts.config(ts.configs.strict, ts.configs.stylistic, [
   {
-    files: ['**/*.ts', '**/*.tsx'],
-    languageOptions: {
-      parser: tsParser,
-      parserOptions: {
-        project: './tsconfig.json',
-        sourceType: 'module',
-      },
-    },
     plugins: {
-      '@typescript-eslint': ts,
-      react,
-      'react-hooks': reactHooks,
-      import: importPlugin,
-      prettier,
+      react: react,
+      'react-native': fixupPluginRules(reactNative),
+      'simple-import-sort': simpleImportSort,
     },
     rules: {
-      'prettier/prettier': 'error',
-      'react-hooks/rules-of-hooks': 'error',
-      'react-hooks/exhaustive-deps': 'warn',
-      '@typescript-eslint/no-unused-vars': ['error', {argsIgnorePattern: '^_'}],
-      'import/order': [
+      'react-native/no-unused-styles': 2,
+      'react-native/no-raw-text': 2,
+      'react-native/no-single-element-style-arrays': 2,
+
+      '@typescript-eslint/ban-ts-comment': 'off',
+      '@typescript-eslint/consistent-type-definitions': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': 'warn',
+      'no-multiple-empty-lines': ['error', { max: 1, maxBOF: 1 }],
+      'no-duplicate-imports': 'error',
+      'no-console': ['warn', { allow: ['warn', 'error', 'info'] }],
+      'simple-import-sort/exports': 'error',
+      'react/self-closing-comp': 'warn',
+      'react/jsx-sort-props': [
+        2,
+        {
+          multiline: 'last',
+          callbacksLast: true,
+          shorthandFirst: true,
+          ignoreCase: true,
+          noSortAlphabetically: false,
+        },
+      ],
+      'simple-import-sort/imports': [
         'error',
         {
           groups: [
-            'builtin',
-            'external',
-            'internal',
-            'parent',
-            'sibling',
-            'index',
+            ['^react', '^react-native'],
+            ['@react'],
+            ['@?\\w'],
+            ['@hooks', 'use[A-Z]'],
+            ['@router'],
+            ['@screens'],
+            ['@components', 'components'],
+            ['./[A-Z][a-zA-Z0-9]'],
+            ['@API'],
+            ['@extra'],
+            ['@asyncStorage'],
+            ['@stateManagement'],
+            ['@models', '@types'],
+            ['@variables', '@constants'],
+            ['@localization'],
+            ['@assets'],
+            ['^'],
+            ['^(.*).style'],
+            ['^(.*).json'],
           ],
-          'newlines-between': 'always',
         },
       ],
-      'import/no-unresolved': 'error',
-      'import/no-extraneous-dependencies': 'error',
     },
   },
-];
+]);
