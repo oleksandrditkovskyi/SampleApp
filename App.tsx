@@ -9,9 +9,8 @@ const App = () => {
   return (
     <ErrorBoundary>
       <GestureHandlerRootView style={styles.container}>
-        <SafeAreaView style={styles.container}>
-          <AppNavigator />
-        </SafeAreaView>
+        <SafeAreaView />
+        <AppNavigator />
       </GestureHandlerRootView>
     </ErrorBoundary>
   );

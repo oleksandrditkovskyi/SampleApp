@@ -16,7 +16,12 @@ const Stack = createStackNavigator<RootStackParamList>();
 export const AppNavigator = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator
+        initialRouteName="Home"
+        screenOptions={{
+          headerTransparent: true,
+        }}
+      >
         <Stack.Screen
           component={ManageLocationScreen}
           name="ManageLocation"
@@ -24,7 +29,13 @@ export const AppNavigator = () => {
             animation: 'reveal_from_bottom',
           }}
         />
-        <Stack.Screen component={HomeScreen} name="Home" />
+        <Stack.Screen
+          component={HomeScreen}
+          name="Home"
+          options={{
+            headerShown: false,
+          }}
+        />
         <Stack.Screen component={SettingsScreen} name="Settings" />
       </Stack.Navigator>
     </NavigationContainer>

@@ -5,6 +5,9 @@ import { StackNavigationProp } from '@react-navigation/stack';
 
 import { RootStackParamList } from '@navigation/AppNavigator';
 
+import { ManageLocationIcon } from '@assets/images/svg/ManageLocationIcon';
+import { SettingsIcon } from '@assets/images/svg/SettingsIcon';
+
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
 export const HomeScreen = () => {
@@ -15,12 +18,13 @@ export const HomeScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Pressable
-        style={styles.manageLocationBtn}
-        onPress={onPressManageLocation}
-      />
+      <Pressable style={styles.btn} onPress={onPressManageLocation}>
+        <ManageLocationIcon />
+      </Pressable>
 
-      <Pressable style={styles.settingsBtn} onPress={onPressSettings} />
+      <Pressable style={styles.btn} onPress={onPressSettings}>
+        <SettingsIcon />
+      </Pressable>
 
       <Text>Home</Text>
     </View>
@@ -34,14 +38,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'green',
   },
-  manageLocationBtn: {
-    width: 24,
-    height: 24,
-    backgroundColor: 'purple',
-  },
-  settingsBtn: {
-    width: 24,
-    height: 24,
-    backgroundColor: 'royalblue',
+  btn: {
+    padding: 5,
   },
 });
