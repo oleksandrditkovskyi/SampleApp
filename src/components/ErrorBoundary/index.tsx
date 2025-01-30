@@ -1,15 +1,11 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
+
+import { ErrorBoundaryProps, ErrorBoundaryState } from './types';
+
+import { BaseText } from '@components/BaseText';
 
 import { styles } from './styles';
-
-interface ErrorBoundaryProps {
-  children: ReactNode;
-}
-
-interface ErrorBoundaryState {
-  hasError: boolean;
-}
 
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   constructor(props: ErrorBoundaryProps) {
@@ -29,7 +25,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     if (this.state.hasError) {
       return (
         <View style={styles.container}>
-          <Text>Something went wrong.</Text>
+          <BaseText size={20} value="Something went wrong" />
         </View>
       );
     }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 
 import { useNavigation } from '@react-navigation/native';
@@ -8,6 +8,8 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { getWeather } from './api';
 
 import { RootStackParamList } from '@navigation/AppNavigator';
+
+import { BaseText } from '@components/BaseText';
 
 import { ManageLocationIcon } from '@assets/images/svg/ManageLocationIcon';
 import { SettingsIcon } from '@assets/images/svg/SettingsIcon';
@@ -71,7 +73,7 @@ export const HomeScreen = () => {
         <SettingsIcon />
       </Pressable>
 
-      <Text>Home</Text>
+      <BaseText value={'Home'} />
     </View>
   );
 };
