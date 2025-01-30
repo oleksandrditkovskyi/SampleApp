@@ -1,4 +1,4 @@
-import { NavigationContainer } from '@react-navigation/native';
+import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { HomeScreen } from '@screens/HomeScreen';
@@ -15,7 +15,15 @@ const Stack = createStackNavigator<RootStackParamList>();
 
 export const AppNavigator = () => {
   return (
-    <NavigationContainer>
+    <NavigationContainer
+      theme={{
+        ...DefaultTheme,
+        colors: {
+          ...DefaultTheme.colors,
+          background: 'transparent',
+        },
+      }}
+    >
       <Stack.Navigator
         initialRouteName="Home"
         screenOptions={{

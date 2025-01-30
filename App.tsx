@@ -1,16 +1,21 @@
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-
-import ErrorBoundary from '@components/ErrorBoundary';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { AppNavigator } from '@navigation/AppNavigator';
+
+import ErrorBoundary from '@components/ErrorBoundary';
+import { GradientBackground } from '@components/GradientBackground';
 
 const App = () => {
   return (
     <ErrorBoundary>
       <GestureHandlerRootView style={styles.container}>
-        <SafeAreaView />
-        <AppNavigator />
+        <GradientBackground weatherType="clear">
+          <SafeAreaView edges={['right', 'left']} style={styles.container}>
+            <AppNavigator />
+          </SafeAreaView>
+        </GradientBackground>
       </GestureHandlerRootView>
     </ErrorBoundary>
   );
