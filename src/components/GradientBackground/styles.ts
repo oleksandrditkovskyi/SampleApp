@@ -1,7 +1,9 @@
 import { StyleSheet } from 'react-native';
 
+import { commonValues } from '@utils/commonValues';
+
 export const styles = StyleSheet.create({
   gradient: {
-    flex: 1,
+    flex: commonValues.FLEX_1,
   },
 });

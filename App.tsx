@@ -7,6 +7,8 @@ import { AppNavigator } from '@navigation/AppNavigator';
 import ErrorBoundary from '@components/ErrorBoundary';
 import { GradientBackground } from '@components/GradientBackground';
 
+import { commonValues } from '@utils/commonValues';
+
 const App = () => {
   return (
     <ErrorBoundary>
@@ -23,7 +25,7 @@ const App = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: commonValues.FLEX_1,
   },
 });
 
