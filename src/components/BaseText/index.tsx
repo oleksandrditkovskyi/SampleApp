@@ -4,6 +4,8 @@ import { BaseTextProps } from './types';
 
 import { colors } from '@utils/colors';
 
+import { styles } from './styles';
+
 export const BaseText = ({
   bold,
   color,
@@ -29,15 +31,3 @@ export const BaseText = ({
     {value}
   </Text>
 );
-
-const styles = StyleSheet.create({
-  font: {
-    fontFamily: 'Poppins-Regular',
-  },
-  medium: {
-    fontFamily: 'Poppins-Medium',
-  },
-  bold: {
-    fontFamily: 'Poppins-SemiBold',
-  },
-});
