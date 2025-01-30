@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 
 import { useNavigation } from '@react-navigation/native';
@@ -11,6 +11,8 @@ import { RootStackParamList } from '@navigation/AppNavigator';
 
 import { ManageLocationIcon } from '@assets/images/svg/ManageLocationIcon';
 import { SettingsIcon } from '@assets/images/svg/SettingsIcon';
+
+import { styles } from './styles';
 
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
@@ -73,15 +75,3 @@ export const HomeScreen = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'green',
-  },
-  btn: {
-    padding: 5,
-  },
-});

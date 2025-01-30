@@ -1,4 +1,6 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
+
+import { styles } from './styles';
 
 export const ManageLocationScreen = () => {
   return (
@@ -7,12 +9,3 @@ export const ManageLocationScreen = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'purple',
-  },
-});
