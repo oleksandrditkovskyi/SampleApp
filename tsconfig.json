@@ -7,7 +7,9 @@
       "@hooks/*": ["src/hooks/*"],
       "@navigation/*": ["src/navigation/*"],
       "@screens/*": ["src/screens/*"],
-      "@assets/*": ["src/assets/*"]
+      "@assets/*": ["src/assets/*"],
+      "@services/*": ["src/services/*"]
     }
-  }
+  },
+  "include": ["**/*.ts", "**/*.tsx", "env.d.ts"]
 }
