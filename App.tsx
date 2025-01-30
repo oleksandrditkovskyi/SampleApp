@@ -1,12 +1,18 @@
-import { StyleSheet,View } from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import ErrorBoundary from '@components/ErrorBoundary';
 
-const App = () => {
+import { AppNavigator } from '@navigation/AppNavigator';
 
+const App = () => {
   return (
     <ErrorBoundary>
-      <View style={styles.container} />
+      <GestureHandlerRootView style={styles.container}>
+        <SafeAreaView style={styles.container}>
+          <AppNavigator />
+        </SafeAreaView>
+      </GestureHandlerRootView>
     </ErrorBoundary>
   );
 };
@@ -14,8 +20,6 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    backgroundColor: 'royalblue',
   },
 });
 
