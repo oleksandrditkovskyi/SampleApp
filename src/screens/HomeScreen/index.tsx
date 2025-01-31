@@ -14,6 +14,7 @@ import { Line } from '@components/Line';
 import { AdditionalWeatherInfo } from './components/AdditionalWeatherInfo';
 import { Next24HoursItem } from './components/Next24HoursItem';
 
+import { colors } from '@utils/colors';
 import { commonValues } from '@utils/commonValues';
 import { WeatherDataProps, WeatherStore } from '@utils/types';
 
@@ -131,11 +132,7 @@ export const HomeScreen = () => {
           </View>
         </View>
       ) : (
-        <ActivityIndicator
-          animating={isLoading}
-          color="#fff"
-          style={styles.activityIndicator}
-        />
+        <ActivityIndicator color={colors.WHITE} />
       )}
 
       {next24hoursData.length > 0 && !isLoading && (

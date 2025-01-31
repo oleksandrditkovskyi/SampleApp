@@ -35,11 +35,6 @@ export const styles = StyleSheet.create({
   separator: {
     width: commonValues.SIZE_16,
   },
-  activityIndicator: {
-    flex: commonValues.FLEX_1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   flatListWrap: {
     marginTop: commonValues.SIZE_16,
   },
