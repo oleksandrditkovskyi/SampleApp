@@ -1,6 +1,9 @@
 import { Dimensions, Platform } from 'react-native';
 
 export const commonValues = {
+  SIZE_0: 0,
+  SIZE_1: 1,
+  SIZE_2: 2,
   SIZE_4: 4,
   SIZE_6: 6,
   SIZE_8: 8,
@@ -29,11 +32,12 @@ export const commonValues = {
   FONT_SIZE_24: 24,
   FONT_SIZE_30: 30,
   FONT_SIZE_36: 36,
+  FONT_SIZE_72: 72,
   APP_WIDTH: Dimensions.get('window').width,
   APP_HEIGHT: Dimensions.get('window').height,
   IS_IOS: Platform.OS === 'ios',
-  FULL: '100%',
-  HALF: '50%',
+  FULL: '100%' as const,
+  HALF: '50%' as const,
   BORDER_WIDTH_1: 1,
   BORDER_RADIUS_12: 12,
   BORDER_RADIUS_20: 20,
