@@ -9,7 +9,8 @@
       "@screens/*": ["src/screens/*"],
       "@assets/*": ["src/assets/*"],
       "@services/*": ["src/services/*"],
-      "@utils/*": ["src/utils/*"]
+      "@utils/*": ["src/utils/*"],
+      "@store/*": ["src/store/*"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx", "env.d.ts"]

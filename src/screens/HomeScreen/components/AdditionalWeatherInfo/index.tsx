@@ -1,10 +1,9 @@
 import { View } from 'react-native';
 
-import { WeatherDataProps } from '@screens/HomeScreen/types';
-
 import { BaseText } from '@components/BaseText';
 
 import { commonValues } from '@utils/commonValues';
+import { WeatherDataProps } from '@utils/types';
 
 import { CloudRainIcon } from '@assets/images/svg/CloudRainIcon';
 import { HumidityIcon } from '@assets/images/svg/HumidityIcon';
@@ -58,7 +57,7 @@ export const AdditionalWeatherInfo = ({
         <View>
           <BaseText
             size={commonValues.FONT_SIZE_12}
-            value={`${weather5DaysData[0].pop * 100} %`}
+            value={`${Math.round(weather5DaysData[0].pop * 100)}%`}
           />
 
           <BaseText size={commonValues.FONT_SIZE_12} value="Chance of rain" />

@@ -50,7 +50,7 @@ export default ts.config(ts.configs.strict, ts.configs.stylistic, [
             ['@services'],
             ['@utils'],
             ['@asyncStorage'],
-            ['@stateManagement'],
+            ['@store'],
             ['@models', '@types'],
             ['@variables', '@constants'],
             ['@assets'],

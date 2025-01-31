@@ -3,19 +3,13 @@ import { StyleSheet } from 'react-native';
 import { colors } from '@utils/colors';
 import { commonValues } from '@utils/commonValues';
 
+const HEADER_HEIGHT = commonValues.SIZE_42;
+
 export const styles = StyleSheet.create({
   container: {
     flex: commonValues.FLEX_1,
     padding: commonValues.SIZE_16,
-  },
-  header: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: commonValues.SIZE_16,
-  },
-  btn: {
-    padding: commonValues.SIZE_6,
+    paddingTop: commonValues.SIZE_16 + HEADER_HEIGHT,
   },
   mainInfoWrap: {
     alignItems: 'center',
@@ -24,13 +18,13 @@ export const styles = StyleSheet.create({
     width: 200,
     height: 200,
     overflow: 'hidden',
-    borderRadius: '50%',
+    borderRadius: commonValues.HALF,
   },
   dateWrap: {
     flexDirection: 'row',
   },
   werticalLine: {
-    width: 2,
+    width: commonValues.SIZE_2,
     backgroundColor: colors.WHITE,
     marginHorizontal: commonValues.SIZE_12,
   },
@@ -38,7 +32,18 @@ export const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     borderRadius: commonValues.BORDER_RADIUS_16,
   },
-  loading: {
-    zIndex: 1,
+  separator: {
+    width: commonValues.SIZE_16,
+  },
+  activityIndicator: {
+    flex: commonValues.FLEX_1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  flatListWrap: {
+    marginTop: commonValues.SIZE_16,
+  },
+  flatList: {
+    padding: commonValues.SIZE_16,
   },
 });
