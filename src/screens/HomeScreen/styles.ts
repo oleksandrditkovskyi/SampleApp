@@ -12,6 +12,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginBottom: commonValues.SIZE_16,
   },
   btn: {
     padding: commonValues.SIZE_6,
@@ -32,5 +33,12 @@ export const styles = StyleSheet.create({
     width: 2,
     backgroundColor: colors.WHITE,
     marginHorizontal: commonValues.SIZE_12,
+  },
+  glassEffect: {
+    ...StyleSheet.absoluteFillObject,
+    borderRadius: commonValues.BORDER_RADIUS_16,
+  },
+  loading: {
+    zIndex: 1,
   },
 });

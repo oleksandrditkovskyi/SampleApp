@@ -39,7 +39,7 @@ export const commonValues = {
   FULL: '100%' as const,
   HALF: '50%' as const,
   BORDER_WIDTH_1: 1,
-  BORDER_RADIUS_12: 12,
+  BORDER_RADIUS_16: 16,
   BORDER_RADIUS_20: 20,
   MAX_Z_INDEX: 9999,
   FLEX_1: 1,

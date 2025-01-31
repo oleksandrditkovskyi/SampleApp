@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Image, Pressable, View } from 'react-native';
+import { ActivityIndicator, Image, Pressable, View } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { BlurView } from '@react-native-community/blur';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
@@ -27,7 +28,7 @@ type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
 export const HomeScreen = () => {
   const navigation = useNavigation<HomeScreenNavigationProp>();
-
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [weatherData, setWeatherData] = useState<WeatherDataProps | null>(null);
   const [weather5DaysData, setWeather5DaysData] = useState<WeatherDataProps[]>(
     [],
@@ -42,6 +43,7 @@ export const HomeScreen = () => {
   const onPressSettings = () => navigation.navigate('Settings');
 
   const fetchWeather = async (lat: number, lon: number) => {
+    setIsLoading(true);
     try {
       const data = await getWeather(lat, lon);
       const data5Days = await getWeather5Days(lat, lon);
@@ -49,6 +51,8 @@ export const HomeScreen = () => {
       setWeatherData(data);
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -91,6 +95,21 @@ export const HomeScreen = () => {
 
       {weatherData && (
         <View>
+          <BlurView
+            blurAmount={20}
+            blurType="light"
+            reducedTransparencyFallbackColor="white"
+            style={[styles.glassEffect, isLoading && styles.loading]}
+          />
+
+          {isLoading && (
+            <ActivityIndicator
+              animating={isLoading}
+              color="#fff"
+              style={[styles.glassEffect, isLoading && styles.loading]}
+            />
+          )}
+
           <View style={styles.mainInfoWrap}>
             <Image
               resizeMode={'contain'}
@@ -117,7 +136,7 @@ export const HomeScreen = () => {
             <BaseText value={weatherData.weather[0].description} />
           </View>
 
-          <Line />
+          <Line marginHorizontal={commonValues.SIZE_16} />
 
           <AdditionalWeatherInfo
             weather5DaysData={weather5DaysData}
