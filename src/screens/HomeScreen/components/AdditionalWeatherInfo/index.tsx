@@ -14,68 +14,71 @@ import { styles } from './styles';
 
 type Props = {
   weatherData: WeatherDataProps;
-  weather5DaysData: WeatherDataProps[];
+  next24hoursData: WeatherDataProps[];
 };
 
 export const AdditionalWeatherInfo = ({
   weatherData,
-  weather5DaysData,
-}: Props) => (
-  <View style={styles.container}>
-    <View style={styles.infoWrap}>
-      <View style={styles.info}>
-        <WindIcon />
+  next24hoursData,
+}: Props) => {
+  const chanceOfRain = `${Math.round(
+    Math.max(...next24hoursData.map(el => el.pop)) * 100,
+  )}%`;
 
-        <View>
-          <BaseText
-            size={commonValues.FONT_SIZE_12}
-            value={`${weatherData.wind.speed} m/s`}
-          />
+  return (
+    <View style={styles.container}>
+      <View style={styles.infoWrap}>
+        <View style={styles.info}>
+          <WindIcon />
 
-          <BaseText size={commonValues.FONT_SIZE_12} value="Wind" />
+          <View>
+            <BaseText
+              size={commonValues.FONT_SIZE_12}
+              value={`${weatherData.wind.speed} m/s`}
+            />
+
+            <BaseText size={commonValues.FONT_SIZE_12} value="Wind" />
+          </View>
+        </View>
+
+        <View style={styles.info}>
+          <PressureIcon />
+
+          <View>
+            <BaseText
+              size={commonValues.FONT_SIZE_12}
+              value={`${weatherData.main.pressure} hPa`}
+            />
+
+            <BaseText size={commonValues.FONT_SIZE_12} value="Pressure" />
+          </View>
         </View>
       </View>
 
-      <View style={styles.info}>
-        <PressureIcon />
+      <View style={styles.infoWrap}>
+        <View style={styles.info}>
+          <CloudRainIcon />
 
-        <View>
-          <BaseText
-            size={commonValues.FONT_SIZE_12}
-            value={`${weatherData.main.pressure} hPa`}
-          />
+          <View>
+            <BaseText size={commonValues.FONT_SIZE_12} value={chanceOfRain} />
 
-          <BaseText size={commonValues.FONT_SIZE_12} value="Pressure" />
+            <BaseText size={commonValues.FONT_SIZE_12} value="Chance of rain" />
+          </View>
+        </View>
+
+        <View style={styles.info}>
+          <HumidityIcon />
+
+          <View>
+            <BaseText
+              size={commonValues.FONT_SIZE_12}
+              value={`${weatherData.main.humidity}%`}
+            />
+
+            <BaseText size={commonValues.FONT_SIZE_12} value="Humidity" />
+          </View>
         </View>
       </View>
     </View>
-
-    <View style={styles.infoWrap}>
-      <View style={styles.info}>
-        <CloudRainIcon />
-
-        <View>
-          <BaseText
-            size={commonValues.FONT_SIZE_12}
-            value={`${Math.round(weather5DaysData[0].pop * 100)}%`}
-          />
-
-          <BaseText size={commonValues.FONT_SIZE_12} value="Chance of rain" />
-        </View>
-      </View>
-
-      <View style={styles.info}>
-        <HumidityIcon />
-
-        <View>
-          <BaseText
-            size={commonValues.FONT_SIZE_12}
-            value={`${weatherData.main.humidity}%`}
-          />
-
-          <BaseText size={commonValues.FONT_SIZE_12} value="Humidity" />
-        </View>
-      </View>
-    </View>
-  </View>
-);
+  );
+};

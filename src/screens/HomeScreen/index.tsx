@@ -124,7 +124,7 @@ export const HomeScreen = () => {
               <View style={styles.dateWrap}>
                 <BaseText value={format(localeDate, 'MMM dd')} />
 
-                <View style={styles.werticalLine} />
+                <View style={styles.verticalLine} />
 
                 <BaseText value={format(localeDate, 'EEEE')} />
               </View>
@@ -141,7 +141,7 @@ export const HomeScreen = () => {
             <Line marginHorizontal={commonValues.SIZE_16} />
 
             <AdditionalWeatherInfo
-              weather5DaysData={weather5DaysData}
+              next24hoursData={next24hoursData}
               weatherData={weatherData}
             />
           </View>

@@ -5,7 +5,6 @@ import { format } from 'date-fns';
 
 import { BaseText } from '@components/BaseText';
 
-import { commonValues } from '@utils/commonValues';
 import { WeatherDataProps } from '@utils/types';
 
 import { styles } from './styles';
@@ -25,14 +24,8 @@ export const Next24HoursItem = memo(({ item }: Props) => (
       }}
     />
 
-    <BaseText
-      size={commonValues.FONT_SIZE_12}
-      value={`${Math.round(item.main.temp_min)}°/${Math.round(item.main.temp_max)}°`}
-    />
+    <BaseText value={`${Math.round(item.main.temp)}°`} />
 
-    <BaseText
-      size={commonValues.FONT_SIZE_12}
-      value={`${Math.round(item.pop * 100)}% rain`}
-    />
+    {!!item.pop && <BaseText value={`${Math.round(item.pop * 100)}%`} />}
   </View>
 ));

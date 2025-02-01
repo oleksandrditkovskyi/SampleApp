@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
   dateWrap: {
     flexDirection: 'row',
   },
-  werticalLine: {
+  verticalLine: {
     width: commonValues.SIZE_2,
     backgroundColor: colors.WHITE,
     marginHorizontal: commonValues.SIZE_12,

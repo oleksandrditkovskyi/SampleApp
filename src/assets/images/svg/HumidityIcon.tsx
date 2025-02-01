@@ -1,7 +1,7 @@
 import Svg, { Path } from 'react-native-svg';
 
-export const HumidityIcon = () => (
-  <Svg fill="none" height={32} width={32}>
+export const HumidityIcon = ({ size = 32 }) => (
+  <Svg fill="none" height={size} viewBox="0 0 32 32" width={size}>
     <Path
       d="M25 20c0 5.523-3.477 9-9 9s-9-3.477-9-9c0-5.927 6.452-13.928 8.43-16.242a.75.75 0 0 1 1.14 0C18.548 6.072 25 14.073 25 20Z"
       stroke="#fff"

@@ -8,6 +8,9 @@ import { BaseText } from '@components/BaseText';
 import { commonValues } from '@utils/commonValues';
 import { WeatherDataProps } from '@utils/types';
 
+import { CloudRainIcon } from '@assets/images/svg/CloudRainIcon';
+import { HumidityIcon } from '@assets/images/svg/HumidityIcon';
+
 import { styles } from './styles';
 
 type Props = {
@@ -28,14 +31,32 @@ export const ForecastFor5Days = memo(({ item }: Props) => (
 
       <BaseText
         size={commonValues.FONT_SIZE_12}
-        value={`${Math.round(item.pop * 100)}% rain`}
+        value={`${Math.round(item.main.temp_min)}°`}
+      />
+    </View>
+
+    <View style={styles.rainWrap}>
+      <CloudRainIcon size={commonValues.SIZE_20} />
+
+      <BaseText
+        size={commonValues.FONT_SIZE_12}
+        value={`${Math.round(item.pop * 100)}%`}
+      />
+    </View>
+
+    <View style={styles.rainWrap}>
+      <HumidityIcon size={commonValues.SIZE_20} />
+
+      <BaseText
+        size={commonValues.FONT_SIZE_12}
+        value={`${Math.round(item.main.humidity)}%`}
       />
     </View>
 
     <BaseText
       size={commonValues.FONT_SIZE_12}
       style={styles.temp}
-      value={`${Math.round(item.main.temp_min)}°/${Math.round(item.main.temp_max)}°`}
+      value={`${item.wind.speed} m/s`}
     />
   </View>
 ));
