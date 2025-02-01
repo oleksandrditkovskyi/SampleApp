@@ -28,9 +28,6 @@ export const HomeScreen = () => {
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [weatherData, setWeatherData] = useState<WeatherDataProps | null>(null);
-  const [weather5DaysData, setWeather5DaysData] = useState<WeatherDataProps[]>(
-    [],
-  );
   const [forecastFor5Days, setForecastFor5Days] = useState<WeatherDataProps[]>(
     [],
   );
@@ -49,14 +46,13 @@ export const HomeScreen = () => {
       const data = await getWeather(lat, lon);
       const data5Days = await getWeather5Days(lat, lon);
       const data24Hours = data5Days.list.slice(0, 8);
-      const filteredData5Days = data5Days.list
-        .filter((item: WeatherDataProps) => item.dt_txt.includes('12:00:00'))
-        .slice(1);
+      const filteredData5Days = data5Days.list.filter(
+        (item: WeatherDataProps) => item.dt_txt.includes('12:00:00'),
+      );
 
       setForecastFor5Days(filteredData5Days);
       setWeatherStoreData(data);
       setNext24hoursData(data24Hours);
-      setWeather5DaysData(data5Days.list);
       setWeatherData(data);
     } catch (error) {
       console.error(error);

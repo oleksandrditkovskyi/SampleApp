@@ -3,7 +3,7 @@ import { ENDPOINTS } from '@services/api/endpoints';
 
 export const getWeather = async (lat: number, lon: number) => {
   const response = await api.get(
-    ENDPOINTS.WEATHER.GET_LOCATION_WEARHER(lat, lon),
+    ENDPOINTS.WEATHER.GET_LOCATION_WEATHER(lat, lon),
     {
       params: {
         units: 'metric',

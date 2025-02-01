@@ -19,7 +19,14 @@ type Props = {
 
 export const ForecastFor5Days = memo(({ item }: Props) => (
   <View style={styles.container}>
-    <BaseText medium style={styles.week} value={format(item.dt_txt, 'EEE')} />
+    <View style={styles.week}>
+      <BaseText
+        size={commonValues.FONT_SIZE_12}
+        value={format(item.dt_txt, 'dd')}
+      />
+
+      <BaseText medium value={format(item.dt_txt, 'EEE')} />
+    </View>
 
     <View style={styles.rainWrap}>
       <Image
