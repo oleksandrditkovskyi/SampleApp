@@ -14,7 +14,7 @@ import { BaseText } from '@components/BaseText';
 
 import { WeatherStore } from '@utils/types';
 
-import { useWeatherStore } from '@store/index';
+import { useWeatherStore } from '@store/weatherStore';
 
 import { ManageLocationIcon } from '@assets/images/svg/ManageLocationIcon';
 import { SettingsIcon } from '@assets/images/svg/SettingsIcon';

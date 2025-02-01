@@ -5,12 +5,18 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { getGradientColors, getTimeOfDay } from './methods';
 import { GradientBackgroundProps } from './types';
 
+import { WeatherStore } from '@utils/types';
+
+import { useWeatherStore } from '@store/weatherStore';
+
 import { styles } from './styles';
 
 export const GradientBackground: React.FC<GradientBackgroundProps> = ({
   children,
   weatherType = 'clear',
 }) => {
+  const { weatherStoreData } = useWeatherStore() as WeatherStore;
+
   const timeOfDay = useMemo(() => getTimeOfDay(), []);
   const colors = useMemo(
     () => getGradientColors(weatherType, timeOfDay),

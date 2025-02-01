@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Image, View } from 'react-native';
 
 import { format } from 'date-fns';
@@ -13,7 +14,7 @@ type Props = {
   item: WeatherDataProps;
 };
 
-export const Next24HoursItem = ({ item }: Props) => (
+export const Next24HoursItem = memo(({ item }: Props) => (
   <View style={styles.container}>
     <BaseText medium value={format(item.dt_txt, 'HH:mm')} />
 
@@ -34,4 +35,4 @@ export const Next24HoursItem = ({ item }: Props) => (
       value={`${Math.round(item.pop * 100)}% rain`}
     />
   </View>
-);
+));

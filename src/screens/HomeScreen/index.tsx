@@ -12,13 +12,14 @@ import { format } from 'date-fns';
 import { BaseText } from '@components/BaseText';
 import { Line } from '@components/Line';
 import { AdditionalWeatherInfo } from './components/AdditionalWeatherInfo';
+import { ForecastFor5Days } from './components/ForecastFor5Days';
 import { Next24HoursItem } from './components/Next24HoursItem';
 
 import { colors } from '@utils/colors';
 import { commonValues } from '@utils/commonValues';
 import { WeatherDataProps, WeatherStore } from '@utils/types';
 
-import { useWeatherStore } from '@store/index';
+import { useWeatherStore } from '@store/weatherStore';
 
 import { styles } from './styles';
 
@@ -28,6 +29,9 @@ export const HomeScreen = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [weatherData, setWeatherData] = useState<WeatherDataProps | null>(null);
   const [weather5DaysData, setWeather5DaysData] = useState<WeatherDataProps[]>(
+    [],
+  );
+  const [forecastFor5Days, setForecastFor5Days] = useState<WeatherDataProps[]>(
     [],
   );
   const [next24hoursData, setNext24hoursData] = useState<WeatherDataProps[]>(
@@ -45,7 +49,11 @@ export const HomeScreen = () => {
       const data = await getWeather(lat, lon);
       const data5Days = await getWeather5Days(lat, lon);
       const data24Hours = data5Days.list.slice(0, 8);
+      const filteredData5Days = data5Days.list
+        .filter((item: WeatherDataProps) => item.dt_txt.includes('12:00:00'))
+        .slice(1);
 
+      setForecastFor5Days(filteredData5Days);
       setWeatherStoreData(data);
       setNext24hoursData(data24Hours);
       setWeather5DaysData(data5Days.list);
@@ -72,19 +80,26 @@ export const HomeScreen = () => {
     );
   };
 
-  const renderItem = useCallback(
+  const renderItem24Hours = useCallback(
     ({ item }: { item: WeatherDataProps }) => <Next24HoursItem item={item} />,
     [next24hoursData],
   );
 
-  const SeparatorComponent = () => <View style={styles.separator} />;
+  const renderItem5Days = useCallback(
+    ({ item }: { item: WeatherDataProps }) => <ForecastFor5Days item={item} />,
+    [forecastFor5Days],
+  );
+
+  const ItemSeparatorComponent = () => <View style={styles.separator} />;
+
+  const keyExtractor = (item: WeatherDataProps) => String(item.dt);
 
   useEffect(() => {
     getLocation();
   }, []);
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       <SafeAreaView edges={['top']} />
 
       {weatherData && !isLoading ? (
@@ -147,13 +162,36 @@ export const HomeScreen = () => {
           <FlatList
             horizontal
             data={next24hoursData}
-            ItemSeparatorComponent={SeparatorComponent}
-            renderItem={renderItem}
+            ItemSeparatorComponent={ItemSeparatorComponent}
+            keyExtractor={keyExtractor}
+            renderItem={renderItem24Hours}
             showsHorizontalScrollIndicator={false}
             style={styles.flatList}
           />
         </View>
       )}
+
+      {forecastFor5Days.length > 0 && !isLoading && (
+        <View style={styles.flatListWrap}>
+          <BlurView
+            blurAmount={commonValues.SIZE_20}
+            blurType="light"
+            reducedTransparencyFallbackColor="white"
+            style={styles.glassEffect}
+          />
+
+          <FlatList
+            data={forecastFor5Days}
+            ItemSeparatorComponent={ItemSeparatorComponent}
+            keyExtractor={keyExtractor}
+            renderItem={renderItem5Days}
+            scrollEnabled={false}
+            style={styles.flatList}
+          />
+        </View>
+      )}
+
+      <SafeAreaView edges={['bottom']} />
     </ScrollView>
   );
 };
