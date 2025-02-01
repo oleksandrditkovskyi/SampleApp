@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     height: commonValues.SIZE_38,
   },
   week: {
-    gap: 2,
+    gap: commonValues.SIZE_2,
     flex: commonValues.FLEX_1,
     flexDirection: 'row',
     alignItems: 'center',
