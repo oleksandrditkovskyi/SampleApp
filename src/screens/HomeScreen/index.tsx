@@ -24,10 +24,10 @@ import { useWeatherStore } from '@store/weatherStore';
 import { styles } from './styles';
 
 export const HomeScreen = () => {
-  const { setWeatherStoreData } = useWeatherStore() as WeatherStore;
+  const { weatherStoreData, setWeatherStoreData } =
+    useWeatherStore() as WeatherStore;
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [weatherData, setWeatherData] = useState<WeatherDataProps | null>(null);
   const [forecastFor5Days, setForecastFor5Days] = useState<WeatherDataProps[]>(
     [],
   );
@@ -38,7 +38,9 @@ export const HomeScreen = () => {
     null,
   );
 
-  const localeDate = weatherData?.dt ? new Date(weatherData?.dt * 1000) : '';
+  const localeDate = weatherStoreData?.dt
+    ? new Date(weatherStoreData?.dt * 1000)
+    : '';
 
   const fetchWeather = async (lat: number, lon: number) => {
     setIsLoading(true);
@@ -53,7 +55,6 @@ export const HomeScreen = () => {
       setForecastFor5Days(filteredData5Days);
       setWeatherStoreData(data);
       setNext24hoursData(data24Hours);
-      setWeatherData(data);
     } catch (error) {
       console.error(error);
     } finally {
@@ -98,7 +99,7 @@ export const HomeScreen = () => {
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       <SafeAreaView edges={['top']} />
 
-      {weatherData && !isLoading ? (
+      {weatherStoreData && !isLoading ? (
         <View>
           <BlurView
             blurAmount={commonValues.SIZE_20}
@@ -113,7 +114,7 @@ export const HomeScreen = () => {
                 resizeMode={'contain'}
                 style={styles.img}
                 source={{
-                  uri: `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@4x.png`,
+                  uri: `https://openweathermap.org/img/wn/${weatherStoreData.weather[0].icon}@4x.png`,
                 }}
               />
 
@@ -128,17 +129,17 @@ export const HomeScreen = () => {
               <BaseText
                 bold
                 size={commonValues.FONT_SIZE_72}
-                value={`${Math.round(weatherData.main.temp)}°`}
+                value={`${Math.round(weatherStoreData.main.temp)}°`}
               />
 
-              <BaseText value={weatherData.weather[0].description} />
+              <BaseText value={weatherStoreData.weather[0].description} />
             </View>
 
             <Line marginHorizontal={commonValues.SIZE_16} />
 
             <AdditionalWeatherInfo
               next24hoursData={next24hoursData}
-              weatherData={weatherData}
+              weatherData={weatherStoreData}
             />
           </View>
         </View>
