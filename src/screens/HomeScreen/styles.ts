@@ -3,13 +3,11 @@ import { StyleSheet } from 'react-native';
 import { colors } from '@utils/colors';
 import { commonValues } from '@utils/commonValues';
 
-const HEADER_HEIGHT = commonValues.SIZE_42;
-
 export const styles = StyleSheet.create({
   container: {
     flex: commonValues.FLEX_1,
     padding: commonValues.SIZE_16,
-    paddingTop: commonValues.SIZE_16 + HEADER_HEIGHT,
+    paddingTop: commonValues.HEADER_HEIGHT + commonValues.SIZE_16,
   },
   mainInfoWrap: {
     alignItems: 'center',
