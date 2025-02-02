@@ -8,4 +8,8 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  glassEffect: {
+    ...StyleSheet.absoluteFillObject,
+    borderRadius: commonValues.BORDER_RADIUS_16,
+  },
 });

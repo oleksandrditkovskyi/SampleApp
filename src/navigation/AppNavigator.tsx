@@ -12,10 +12,13 @@ import { SettingsScreen } from '@screens/SettingsScreen';
 
 import { BaseText } from '@components/BaseText';
 
+import { colors } from '@utils/colors';
+import { hitSlop } from '@utils/commonValues';
 import { WeatherStore } from '@utils/types';
 
 import { useWeatherStore } from '@store/weatherStore';
 
+import { CloseIcon } from '@assets/images/svg/CloseIcon';
 import { ManageLocationIcon } from '@assets/images/svg/ManageLocationIcon';
 import { SettingsIcon } from '@assets/images/svg/SettingsIcon';
 
@@ -42,6 +45,7 @@ export const AppNavigator = () => {
     headerTitle: () => <BaseText bold value={name} />,
     headerLeft: () => (
       <Pressable
+        hitSlop={hitSlop}
         style={styles.headerLeft}
         onPress={() => navigation.navigate('ManageLocation')}
       >
@@ -50,10 +54,33 @@ export const AppNavigator = () => {
     ),
     headerRight: () => (
       <Pressable
+        hitSlop={hitSlop}
         style={styles.headerRight}
         onPress={() => navigation.navigate('Settings')}
       >
         <SettingsIcon />
+      </Pressable>
+    ),
+  });
+
+  const manageLocationOptions = ({
+    navigation,
+  }: {
+    navigation: StackNavigationProp<
+      RootStackParamList,
+      'ManageLocation',
+      undefined
+    >;
+  }) => ({
+    headerTitle: () => <BaseText bold value={'Manage Location'} />,
+    headerLeft: () => null,
+    headerRight: () => (
+      <Pressable
+        hitSlop={hitSlop}
+        style={styles.headerRight}
+        onPress={() => navigation.goBack()}
+      >
+        <CloseIcon />
       </Pressable>
     ),
   });
@@ -64,7 +91,7 @@ export const AppNavigator = () => {
         ...DefaultTheme,
         colors: {
           ...DefaultTheme.colors,
-          background: 'transparent',
+          background: colors.TRANSPARENT,
         },
       }}
     >
@@ -72,14 +99,13 @@ export const AppNavigator = () => {
         initialRouteName="Home"
         screenOptions={{
           headerTransparent: true,
+          presentation: 'transparentModal',
         }}
       >
         <Stack.Screen
           component={ManageLocationScreen}
           name="ManageLocation"
-          options={{
-            animation: 'reveal_from_bottom',
-          }}
+          options={manageLocationOptions}
         />
 
         <Stack.Screen
@@ -88,7 +114,13 @@ export const AppNavigator = () => {
           options={homeOptions}
         />
 
-        <Stack.Screen component={SettingsScreen} name="Settings" />
+        <Stack.Screen
+          component={SettingsScreen}
+          name="Settings"
+          options={{
+            animation: 'slide_from_right',
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
