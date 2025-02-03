@@ -21,6 +21,12 @@ export const City = memo(({ item, array, setSelectedCities }: Props) => {
   const { setWeatherStoreData } = useWeatherStore() as WeatherStore;
   const [data, setData] = useState<WeatherDataProps>();
 
+  const onPress = () => {
+    if (data) {
+      setWeatherStoreData(data);
+    }
+  };
+
   const fetchWeather = async () => {
     try {
       const res = await getCityWeather(item);
@@ -39,10 +45,7 @@ export const City = memo(({ item, array, setSelectedCities }: Props) => {
 
   return (
     data && (
-      <Pressable
-        style={styles.container}
-        // onPress={() => setWeatherStoreData(data)}
-      >
+      <Pressable style={styles.container} onPress={onPress}>
         <View>
           <BaseText value={data?.name || ''} />
 

@@ -1,12 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Image, View } from 'react-native';
-import Geolocation from 'react-native-geolocation-service';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { BlurView } from '@react-native-community/blur';
 
-import { getWeather, getWeather5Days } from './api';
+import { getWeather5Days } from './api';
 import { format } from 'date-fns';
 
 import { BaseText } from '@components/BaseText';
@@ -24,18 +23,14 @@ import { useWeatherStore } from '@store/weatherStore';
 import { styles } from './styles';
 
 export const HomeScreen = () => {
-  const { weatherStoreData, setWeatherStoreData } =
-    useWeatherStore() as WeatherStore;
+  const { weatherStoreData, loading } = useWeatherStore() as WeatherStore;
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [forecastFor5Days, setForecastFor5Days] = useState<WeatherDataProps[]>(
     [],
   );
   const [next24hoursData, setNext24hoursData] = useState<WeatherDataProps[]>(
     [],
-  );
-  const [location, setLocation] = useState<{ lat: number; lon: number } | null>(
-    null,
   );
 
   const localeDate = weatherStoreData?.dt
@@ -45,7 +40,6 @@ export const HomeScreen = () => {
   const fetchWeather = async (lat: number, lon: number) => {
     setIsLoading(true);
     try {
-      const data = await getWeather(lat, lon);
       const data5Days = await getWeather5Days(lat, lon);
       const data24Hours = data5Days.list.slice(0, 8);
       const filteredData5Days = data5Days.list.filter(
@@ -53,28 +47,12 @@ export const HomeScreen = () => {
       );
 
       setForecastFor5Days(filteredData5Days);
-      setWeatherStoreData(data);
       setNext24hoursData(data24Hours);
     } catch (error) {
       console.error(error);
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const getLocation = () => {
-    Geolocation.getCurrentPosition(
-      position => {
-        const coords = {
-          lat: position.coords.latitude,
-          lon: position.coords.longitude,
-        };
-        setLocation(coords);
-        fetchWeather(coords.lat, coords.lon);
-      },
-      error => error,
-      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
-    );
   };
 
   const renderItem24Hours = useCallback(
@@ -92,14 +70,16 @@ export const HomeScreen = () => {
   const keyExtractor = (item: WeatherDataProps) => String(item.dt);
 
   useEffect(() => {
-    getLocation();
-  }, []);
+    if (weatherStoreData.coord) {
+      fetchWeather(weatherStoreData.coord.lat, weatherStoreData.coord.lon);
+    }
+  }, [weatherStoreData]);
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       <SafeAreaView edges={['top']} />
 
-      {weatherStoreData && !isLoading ? (
+      {weatherStoreData.coord && !loading ? (
         <View>
           <BlurView
             blurAmount={commonValues.SIZE_20}

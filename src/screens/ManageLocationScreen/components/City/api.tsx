@@ -1,4 +1,4 @@
-import { api } from '@services/api/api';
+import { api } from '@services/api';
 import { ENDPOINTS } from '@services/api/endpoints';
 
 export const getCityWeather = async (city: string) => {

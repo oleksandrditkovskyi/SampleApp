@@ -1,6 +1,10 @@
 export type WeatherDataProps = {
   name: string;
   dt_txt: string;
+  coord: {
+    lat: number;
+    lon: number;
+  };
   weather: {
     icon: string;
     description: string;
@@ -20,6 +24,8 @@ export type WeatherDataProps = {
 };
 
 export type WeatherStore = {
+  loading: boolean;
+  setLoading: (state: boolean) => void;
   weatherStoreData: WeatherDataProps;
   setWeatherStoreData: (data: WeatherDataProps) => void;
 };
