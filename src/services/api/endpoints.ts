@@ -6,5 +6,6 @@ export const ENDPOINTS = {
       `weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`,
     GET_WEATHER_5_DAYS: (lat: number, lon: number) =>
       `forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}`,
+    GET_CITY_WEATHER: (city: string) => `weather?q=${city}&appid=${API_KEY}`,
   },
 };

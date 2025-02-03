@@ -28,4 +28,7 @@ export const styles = StyleSheet.create({
     borderRadius: commonValues.BORDER_RADIUS_12,
     backgroundColor: colors.WHITE_TRANSPARENT_20,
   },
+  flatListWrap: {
+    flex: commonValues.FLEX_1,
+  },
 });
