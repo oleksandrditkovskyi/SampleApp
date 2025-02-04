@@ -21,4 +21,10 @@ export const styles = StyleSheet.create({
     width: commonValues.SIZE_40,
     height: commonValues.SIZE_40,
   },
+  border: {
+    borderColor: colors.WHITE,
+    ...StyleSheet.absoluteFillObject,
+    borderWidth: commonValues.BORDER_WIDTH_1,
+    borderRadius: commonValues.BORDER_RADIUS_12,
+  },
 });

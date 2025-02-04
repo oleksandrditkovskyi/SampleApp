@@ -11,13 +11,13 @@ import { GradientBackground } from '@components/GradientBackground';
 
 import { getWeather } from '@utils/api';
 import { commonValues } from '@utils/commonValues';
-import { WeatherStore } from '@utils/types';
+import { getFromStorage } from '@utils/storageService';
+import { WeatherDataProps, WeatherStore } from '@utils/types';
 
 import { useWeatherStore } from '@store/weatherStore';
 
 const App = () => {
-  const { weatherStoreData, setWeatherStoreData, setLoading } =
-    useWeatherStore() as WeatherStore;
+  const { setWeatherStoreData, setLoading } = useWeatherStore() as WeatherStore;
 
   const fetchWeather = async (lat: number, lon: number) => {
     setLoading(true);
@@ -32,9 +32,11 @@ const App = () => {
     }
   };
 
-  const getLocation = () => {
-    if (weatherStoreData.coord) {
-      fetchWeather(weatherStoreData.coord.lat, weatherStoreData.coord.lon);
+  const getLocation = async () => {
+    const city = await getFromStorage<WeatherDataProps>('selectedCityWeather');
+
+    if (city) {
+      fetchWeather(city.coord.lat, city.coord.lon);
     } else {
       Geolocation.getCurrentPosition(
         position => {
@@ -50,7 +52,13 @@ const App = () => {
     }
   };
 
-  useEffect(() => getLocation(), []);
+  useEffect(() => {
+    const fetchData = async () => {
+      await getLocation();
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <ErrorBoundary>

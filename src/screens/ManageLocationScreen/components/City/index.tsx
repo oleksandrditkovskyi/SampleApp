@@ -6,6 +6,7 @@ import { getCityWeather } from './api';
 import { BaseText } from '@components/BaseText';
 
 import { commonValues } from '@utils/commonValues';
+import { saveToStorage } from '@utils/storageService';
 import { WeatherDataProps, WeatherStore } from '@utils/types';
 
 import { useWeatherStore } from '@store/weatherStore';
@@ -18,11 +19,13 @@ type Props = {
   setSelectedCities: Dispatch<SetStateAction<string[]>>;
 };
 export const City = memo(({ item, array, setSelectedCities }: Props) => {
-  const { setWeatherStoreData } = useWeatherStore() as WeatherStore;
+  const { weatherStoreData, setWeatherStoreData } =
+    useWeatherStore() as WeatherStore;
   const [data, setData] = useState<WeatherDataProps>();
 
-  const onPress = () => {
+  const onPress = async () => {
     if (data) {
+      await saveToStorage('selectedCityWeather', data);
       setWeatherStoreData(data);
     }
   };
@@ -46,6 +49,10 @@ export const City = memo(({ item, array, setSelectedCities }: Props) => {
   return (
     data && (
       <Pressable style={styles.container} onPress={onPress}>
+        {weatherStoreData.name.toLowerCase() === item.toLowerCase() && (
+          <View style={styles.border} />
+        )}
+
         <View>
           <BaseText value={data?.name || ''} />
 

@@ -10,6 +10,7 @@ import { City } from './components/City';
 
 import { colors } from '@utils/colors';
 import { commonValues } from '@utils/commonValues';
+import { getFromStorage, saveToStorage } from '@utils/storageService';
 
 import { styles } from './styles';
 
@@ -24,6 +25,15 @@ export const ManageLocationScreen = () => {
 
   const multiSelectOnFocus = () => setMultiSelectFocused(true);
   const multiSelectOnBlur = () => setMultiSelectFocused(false);
+
+  const onChange = async (value: string[]) => {
+    const saveCities = async () => {
+      await saveToStorage('citiesList', value);
+    };
+
+    saveCities();
+    setSelectedCities(value);
+  };
 
   const renderItem = useCallback(
     ({ item }: ListItem) => (
@@ -43,6 +53,16 @@ export const ManageLocationScreen = () => {
       useNativeDriver: true,
     }).start();
   }, [multiSelectFocused]);
+
+  useEffect(() => {
+    const getCitiesList = async () => {
+      const list = await getFromStorage<string[]>('citiesList');
+
+      setSelectedCities(list || []);
+    };
+
+    getCitiesList();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -70,7 +90,7 @@ export const ManageLocationScreen = () => {
         valueField="value"
         visibleSelectedItem={false}
         onBlur={multiSelectOnBlur}
-        onChange={setSelectedCities}
+        onChange={onChange}
         onFocus={multiSelectOnFocus}
       />
 
