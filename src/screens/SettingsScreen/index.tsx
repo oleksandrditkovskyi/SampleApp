@@ -13,7 +13,7 @@ export const SettingsScreen = () => {
     <View style={styles.container}>
       <BlurView
         blurAmount={commonValues.SIZE_20}
-        blurType="light"
+        blurType="dark"
         reducedTransparencyFallbackColor="white"
         style={styles.glassEffect}
       />

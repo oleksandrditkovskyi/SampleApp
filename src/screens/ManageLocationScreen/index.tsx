@@ -1,6 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Animated, FlatList, View } from 'react-native';
+import { Animated, FlatList, Pressable, View } from 'react-native';
 import { MultiSelect } from 'react-native-element-dropdown';
+import ReanimatedSwipeable from 'react-native-gesture-handler/ReanimatedSwipeable';
+import Reanimated, {
+  SharedValue,
+  useAnimatedStyle,
+} from 'react-native-reanimated';
 
 import { BlurView } from '@react-native-community/blur';
 
@@ -11,6 +16,8 @@ import { City } from './components/City';
 import { colors } from '@utils/colors';
 import { commonValues } from '@utils/commonValues';
 import { getFromStorage, saveToStorage } from '@utils/storageService';
+
+import { CloseIcon } from '@assets/images/svg/CloseIcon';
 
 import { styles } from './styles';
 
@@ -26,6 +33,8 @@ export const ManageLocationScreen = () => {
   const multiSelectOnFocus = () => setMultiSelectFocused(true);
   const multiSelectOnBlur = () => setMultiSelectFocused(false);
 
+  const keyExtractor = (item: string) => item;
+
   const onChange = async (value: string[]) => {
     const saveCities = async () => {
       await saveToStorage('citiesList', value);
@@ -35,13 +44,51 @@ export const ManageLocationScreen = () => {
     setSelectedCities(value);
   };
 
+  const handleDelete = (city: string) => {
+    setSelectedCities(prevItems => {
+      const newData = prevItems.filter(item => item !== city);
+      onChange(newData);
+
+      return newData;
+    });
+  };
+
+  const ItemSeparatorComponent = () => <View style={styles.separator} />;
+
+  const renderRightActions = (
+    prog: SharedValue<number>,
+    drag: SharedValue<number>,
+    city: string,
+  ) => {
+    const styleAnimation = useAnimatedStyle(() => {
+      return {
+        transform: [{ translateX: drag.value + 50 }],
+      };
+    });
+
+    return (
+      <Reanimated.View style={[styles.deleteBtn, styleAnimation]}>
+        <Pressable onPress={() => handleDelete(city)}>
+          <CloseIcon />
+        </Pressable>
+      </Reanimated.View>
+    );
+  };
+
   const renderItem = useCallback(
     ({ item }: ListItem) => (
-      <City
-        array={selectedCities}
-        item={item}
-        setSelectedCities={setSelectedCities}
-      />
+      <ReanimatedSwipeable
+        containerStyle={styles.swipeableContainer}
+        renderRightActions={(prog, drag) =>
+          renderRightActions(prog, drag, item)
+        }
+      >
+        <City
+          array={selectedCities}
+          item={item}
+          setSelectedCities={setSelectedCities}
+        />
+      </ReanimatedSwipeable>
     ),
     [selectedCities],
   );
@@ -97,8 +144,10 @@ export const ManageLocationScreen = () => {
       <Animated.View style={[styles.flatListWrap, { opacity }]}>
         <FlatList
           data={selectedCities}
+          ItemSeparatorComponent={ItemSeparatorComponent}
+          keyExtractor={keyExtractor}
           renderItem={renderItem}
-          style={styles.flatListWrap}
+          style={styles.flatListStyle}
         />
       </Animated.View>
     </View>

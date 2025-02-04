@@ -3,9 +3,9 @@ import Svg, { Path } from 'react-native-svg';
 import { colors } from '@utils/colors';
 import { commonValues } from '@utils/commonValues';
 
-export const CloseIcon = () => (
+export const CloseIcon = ({ color = colors.WHITE }) => (
   <Svg
-    fill={colors.WHITE}
+    fill={color}
     height={commonValues.SIZE_24}
     viewBox="0 0 50 50"
     width={commonValues.SIZE_24}

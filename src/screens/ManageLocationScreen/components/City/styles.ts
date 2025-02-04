@@ -10,7 +10,6 @@ export const styles = StyleSheet.create({
     flex: commonValues.FLEX_1,
     padding: commonValues.SIZE_16,
     justifyContent: 'space-between',
-    marginTop: commonValues.SIZE_16,
     borderRadius: commonValues.BORDER_RADIUS_12,
     backgroundColor: colors.WHITE_TRANSPARENT_20,
   },

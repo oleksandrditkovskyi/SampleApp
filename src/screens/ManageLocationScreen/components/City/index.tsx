@@ -23,6 +23,8 @@ export const City = memo(({ item, array, setSelectedCities }: Props) => {
     useWeatherStore() as WeatherStore;
   const [data, setData] = useState<WeatherDataProps>();
 
+  const isSelected = weatherStoreData.name.toLowerCase() === item.toLowerCase();
+
   const onPress = async () => {
     if (data) {
       await saveToStorage('selectedCityWeather', data);
@@ -48,13 +50,15 @@ export const City = memo(({ item, array, setSelectedCities }: Props) => {
 
   return (
     data && (
-      <Pressable style={styles.container} onPress={onPress}>
-        {weatherStoreData.name.toLowerCase() === item.toLowerCase() && (
-          <View style={styles.border} />
-        )}
+      <Pressable
+        disabled={isSelected}
+        style={styles.container}
+        onPress={onPress}
+      >
+        {isSelected && <View style={styles.border} />}
 
         <View>
-          <BaseText value={data?.name || ''} />
+          <BaseText value={data?.name} />
 
           <BaseText
             size={commonValues.SIZE_12}
