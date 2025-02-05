@@ -15,6 +15,7 @@ export const commonValues = {
   SIZE_22: 22,
   SIZE_24: 24,
   SIZE_28: 28,
+  SIZE_30: 30,
   SIZE_32: 32,
   SIZE_36: 36,
   SIZE_38: 38,

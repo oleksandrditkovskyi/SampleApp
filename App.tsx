@@ -12,12 +12,14 @@ import { GradientBackground } from '@components/GradientBackground';
 import { getWeather } from '@utils/api';
 import { commonValues } from '@utils/commonValues';
 import { getFromStorage } from '@utils/storageService';
+import { STORAGE_KEYS } from '@utils/storageService/storageKeys';
 import { WeatherDataProps, WeatherStore } from '@utils/types';
 
 import { useWeatherStore } from '@store/weatherStore';
 
 const App = () => {
-  const { setWeatherStoreData, setLoading } = useWeatherStore() as WeatherStore;
+  const { setWeatherStoreData, setLoading, isGeolocation, setIsGeolocation } =
+    useWeatherStore() as WeatherStore;
 
   const fetchWeather = async (lat: number, lon: number) => {
     setLoading(true);
@@ -33,9 +35,12 @@ const App = () => {
   };
 
   const getLocation = async () => {
-    const city = await getFromStorage<WeatherDataProps>('selectedCityWeather');
+    const city = await getFromStorage<WeatherDataProps>(
+      STORAGE_KEYS.SELECTED_CITY_WEATHER,
+    );
+    const citiesList = await getFromStorage<string[]>(STORAGE_KEYS.CITIES_LIST);
 
-    if (city) {
+    if (citiesList?.length && city && !isGeolocation) {
       fetchWeather(city.coord.lat, city.coord.lon);
     } else {
       Geolocation.getCurrentPosition(
@@ -45,6 +50,7 @@ const App = () => {
             lon: position.coords.longitude,
           };
           fetchWeather(coords.lat, coords.lon);
+          setIsGeolocation(true);
         },
         error => error,
         { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
@@ -58,7 +64,7 @@ const App = () => {
     };
 
     fetchData();
-  }, []);
+  }, [isGeolocation]);
 
   return (
     <ErrorBoundary>

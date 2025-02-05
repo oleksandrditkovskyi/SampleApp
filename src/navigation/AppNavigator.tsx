@@ -1,4 +1,10 @@
+import React from 'react';
 import { Pressable } from 'react-native';
+import Reanimated, {
+  useAnimatedStyle,
+  useDerivedValue,
+  withTiming,
+} from 'react-native-reanimated';
 
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import {
@@ -19,6 +25,7 @@ import { WeatherStore } from '@utils/types';
 import { useWeatherStore } from '@store/weatherStore';
 
 import { CloseIcon } from '@assets/images/svg/CloseIcon';
+import { LocationMarkerIcon } from '@assets/images/svg/LocationMarkerIcon';
 import { ManageLocationIcon } from '@assets/images/svg/ManageLocationIcon';
 import { SettingsIcon } from '@assets/images/svg/SettingsIcon';
 
@@ -33,16 +40,35 @@ export type RootStackParamList = {
 const Stack = createStackNavigator<RootStackParamList>();
 
 export const AppNavigator = () => {
-  const {
-    weatherStoreData: { name },
-  } = useWeatherStore() as WeatherStore;
+  const { weatherStoreData, isGeolocation, setIsGeolocation } =
+    useWeatherStore() as WeatherStore;
+
+  const derivedBackgroundColor = useDerivedValue(() => {
+    return withTiming(
+      isGeolocation ? colors.GREEN_IOS : colors.WHITE_TRANSPARENT_20,
+      { duration: 200 },
+    );
+  });
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      backgroundColor: derivedBackgroundColor.value,
+    };
+  });
+
+  const onPressLocationCircle = () => setIsGeolocation(!isGeolocation);
 
   const homeOptions = ({
     navigation,
   }: {
     navigation: StackNavigationProp<RootStackParamList, 'Home', undefined>;
   }) => ({
-    headerTitle: () => <BaseText bold value={name} />,
+    headerTitle: () => (
+      <BaseText
+        value={weatherStoreData.name}
+        onPress={() => navigation.navigate('ManageLocation')}
+      />
+    ),
     headerLeft: () => (
       <Pressable
         hitSlop={hitSlop}
@@ -52,14 +78,23 @@ export const AppNavigator = () => {
         <ManageLocationIcon />
       </Pressable>
     ),
+    headerRightContainerStyle: styles.headerRightContainerStyle,
     headerRight: () => (
-      <Pressable
-        hitSlop={hitSlop}
-        style={styles.headerRight}
-        onPress={() => navigation.navigate('Settings')}
-      >
-        <SettingsIcon />
-      </Pressable>
+      <>
+        <Reanimated.View style={[styles.locationCircle, animatedStyle]}>
+          <Pressable hitSlop={hitSlop} onPress={onPressLocationCircle}>
+            <LocationMarkerIcon />
+          </Pressable>
+        </Reanimated.View>
+
+        <Pressable
+          hitSlop={hitSlop}
+          style={styles.headerRight}
+          onPress={() => navigation.navigate('Settings')}
+        >
+          <SettingsIcon />
+        </Pressable>
+      </>
     ),
   });
 

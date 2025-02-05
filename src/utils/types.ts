@@ -25,7 +25,9 @@ export type WeatherDataProps = {
 
 export type WeatherStore = {
   loading: boolean;
-  setLoading: (state: boolean) => void;
+  isGeolocation: boolean;
   weatherStoreData: WeatherDataProps;
+  setLoading: (value: boolean) => void;
+  setIsGeolocation: (value: boolean) => void;
   setWeatherStoreData: (data: WeatherDataProps) => void;
 };

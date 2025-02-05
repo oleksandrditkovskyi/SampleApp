@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Animated, FlatList, Pressable, View } from 'react-native';
+import { FlatList, Pressable, View } from 'react-native';
 import { MultiSelect } from 'react-native-element-dropdown';
 import ReanimatedSwipeable from 'react-native-gesture-handler/ReanimatedSwipeable';
 import Reanimated, {
   SharedValue,
   useAnimatedStyle,
+  useDerivedValue,
+  withTiming,
 } from 'react-native-reanimated';
 
 import { BlurView } from '@react-native-community/blur';
@@ -15,7 +17,13 @@ import { City } from './components/City';
 
 import { colors } from '@utils/colors';
 import { commonValues } from '@utils/commonValues';
-import { getFromStorage, saveToStorage } from '@utils/storageService';
+import {
+  getFromStorage,
+  removeFromStorage,
+  saveToStorage,
+} from '@utils/storageService';
+import { STORAGE_KEYS } from '@utils/storageService/storageKeys';
+import { WeatherDataProps } from '@utils/types';
 
 import { CloseIcon } from '@assets/images/svg/CloseIcon';
 
@@ -26,9 +34,18 @@ type ListItem = {
 };
 
 export const ManageLocationScreen = () => {
-  const [opacity] = useState(new Animated.Value(0));
   const [selectedCities, setSelectedCities] = useState<string[]>([]);
   const [multiSelectFocused, setMultiSelectFocused] = useState(false);
+
+  const derivedOpacity = useDerivedValue(() => {
+    return withTiming(multiSelectFocused ? 0 : 1, { duration: 100 });
+  });
+
+  const opacityAnimated = useAnimatedStyle(() => {
+    return {
+      opacity: derivedOpacity.value,
+    };
+  });
 
   const multiSelectOnFocus = () => setMultiSelectFocused(true);
   const multiSelectOnBlur = () => setMultiSelectFocused(false);
@@ -36,15 +53,20 @@ export const ManageLocationScreen = () => {
   const keyExtractor = (item: string) => item;
 
   const onChange = async (value: string[]) => {
-    const saveCities = async () => {
-      await saveToStorage('citiesList', value);
-    };
+    await saveToStorage(STORAGE_KEYS.CITIES_LIST, value);
 
-    saveCities();
     setSelectedCities(value);
   };
 
-  const handleDelete = (city: string) => {
+  const handleDelete = async (city: string) => {
+    const getStorageWeather = await getFromStorage<WeatherDataProps>(
+      STORAGE_KEYS.SELECTED_CITY_WEATHER,
+    );
+
+    if (city === getStorageWeather?.name) {
+      removeFromStorage(STORAGE_KEYS.SELECTED_CITY_WEATHER);
+    }
+
     setSelectedCities(prevItems => {
       const newData = prevItems.filter(item => item !== city);
       onChange(newData);
@@ -94,16 +116,8 @@ export const ManageLocationScreen = () => {
   );
 
   useEffect(() => {
-    Animated.timing(opacity, {
-      toValue: multiSelectFocused ? 0 : 1,
-      duration: 100,
-      useNativeDriver: true,
-    }).start();
-  }, [multiSelectFocused]);
-
-  useEffect(() => {
     const getCitiesList = async () => {
-      const list = await getFromStorage<string[]>('citiesList');
+      const list = await getFromStorage<string[]>(STORAGE_KEYS.CITIES_LIST);
 
       setSelectedCities(list || []);
     };
@@ -141,7 +155,7 @@ export const ManageLocationScreen = () => {
         onFocus={multiSelectOnFocus}
       />
 
-      <Animated.View style={[styles.flatListWrap, { opacity }]}>
+      <Reanimated.View style={[styles.flatListWrap, opacityAnimated]}>
         <FlatList
           data={selectedCities}
           ItemSeparatorComponent={ItemSeparatorComponent}
@@ -149,7 +163,7 @@ export const ManageLocationScreen = () => {
           renderItem={renderItem}
           style={styles.flatListStyle}
         />
-      </Animated.View>
+      </Reanimated.View>
     </View>
   );
 };

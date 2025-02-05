@@ -6,7 +6,8 @@ import { getCityWeather } from './api';
 import { BaseText } from '@components/BaseText';
 
 import { commonValues } from '@utils/commonValues';
-import { saveToStorage } from '@utils/storageService';
+import { removeFromStorage, saveToStorage } from '@utils/storageService';
+import { STORAGE_KEYS } from '@utils/storageService/storageKeys';
 import { WeatherDataProps, WeatherStore } from '@utils/types';
 
 import { useWeatherStore } from '@store/weatherStore';
@@ -19,16 +20,20 @@ type Props = {
   setSelectedCities: Dispatch<SetStateAction<string[]>>;
 };
 export const City = memo(({ item, array, setSelectedCities }: Props) => {
-  const { weatherStoreData, setWeatherStoreData } =
+  const { weatherStoreData, setWeatherStoreData, setIsGeolocation } =
     useWeatherStore() as WeatherStore;
   const [data, setData] = useState<WeatherDataProps>();
 
   const isSelected = weatherStoreData.name.toLowerCase() === item.toLowerCase();
 
   const onPress = async () => {
-    if (data) {
-      await saveToStorage('selectedCityWeather', data);
+    if (data && !isSelected) {
+      await saveToStorage(STORAGE_KEYS.SELECTED_CITY_WEATHER, data);
       setWeatherStoreData(data);
+      setIsGeolocation(false);
+    } else {
+      setIsGeolocation(true);
+      removeFromStorage(STORAGE_KEYS.SELECTED_CITY_WEATHER);
     }
   };
 
@@ -50,11 +55,7 @@ export const City = memo(({ item, array, setSelectedCities }: Props) => {
 
   return (
     data && (
-      <Pressable
-        disabled={isSelected}
-        style={styles.container}
-        onPress={onPress}
-      >
+      <Pressable style={styles.container} onPress={onPress}>
         {isSelected && <View style={styles.border} />}
 
         <View>

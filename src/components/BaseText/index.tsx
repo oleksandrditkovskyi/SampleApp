@@ -13,6 +13,7 @@ export const BaseText = ({
   medium,
   value,
   size,
+  onPress,
   ...props
 }: BaseTextProps) => (
   <Text
@@ -26,6 +27,7 @@ export const BaseText = ({
       },
       style,
     ]}
+    onPress={onPress}
     {...props}
   >
     {value}

@@ -1,4 +1,4 @@
-import { TextStyle } from 'react-native';
+import { GestureResponderEvent, TextStyle } from 'react-native';
 
 export type BaseTextProps = {
   bold?: boolean;
@@ -7,4 +7,5 @@ export type BaseTextProps = {
   medium?: boolean;
   size?: number;
   value: string | number;
+  onPress?: (event: GestureResponderEvent) => void;
 };

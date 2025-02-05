@@ -1,7 +1,6 @@
 export const cities = [
   { label: 'Kyiv', value: 'Kyiv' },
   { label: 'London', value: 'London' },
-  { label: 'Berlin', value: 'Berlin' },
   { label: 'Valencia', value: 'Valencia' },
   { label: 'Amsterdam', value: 'Amsterdam' },
   { label: 'Madrid', value: 'Madrid' },
