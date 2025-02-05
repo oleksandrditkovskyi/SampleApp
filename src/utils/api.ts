@@ -12,3 +12,12 @@ export const getWeather = async (lat: number, lon: number) => {
   );
   return response.data;
 };
+
+export const getCityWeather = async (city: string) => {
+  const response = await api.get(ENDPOINTS.WEATHER.GET_CITY_WEATHER(city), {
+    params: {
+      units: 'metric',
+    },
+  });
+  return response.data;
+};

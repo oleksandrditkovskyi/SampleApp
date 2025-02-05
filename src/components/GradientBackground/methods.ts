@@ -1,12 +1,12 @@
 import { TimeOfDay, WeatherType } from './types';
 
-export const getTimeOfDay = () => {
-  const hours = new Date().getHours();
+import { TIME_OF_DAY } from '@utils/constants';
 
-  if (hours >= 5 && hours < 12) return 'morning';
-  if (hours >= 12 && hours < 17) return 'day';
-  if (hours >= 17 && hours < 20) return 'evening';
-  return 'night';
+export const getTimeOfDay = (hours: number) => {
+  if (hours >= 5 && hours < 12) return TIME_OF_DAY.MORNING;
+  if (hours >= 12 && hours < 17) return TIME_OF_DAY.DAY;
+  if (hours >= 17 && hours < 20) return TIME_OF_DAY.NIGHT;
+  return TIME_OF_DAY.NIGHT;
 };
 
 export const getGradientColors = (

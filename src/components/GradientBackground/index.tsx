@@ -3,7 +3,9 @@ import LinearGradient from 'react-native-linear-gradient';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { getGradientColors, getTimeOfDay } from './methods';
-import { GradientBackgroundProps } from './types';
+import { GradientBackgroundProps, TimeOfDay, WeatherType } from './types';
+import { addSeconds, fromUnixTime } from 'date-fns';
+import { toZonedTime } from 'date-fns-tz';
 
 import { WeatherStore } from '@utils/types';
 
@@ -13,14 +15,26 @@ import { styles } from './styles';
 
 export const GradientBackground: React.FC<GradientBackgroundProps> = ({
   children,
-  weatherType = 'clear',
 }) => {
   const { weatherStoreData } = useWeatherStore() as WeatherStore;
 
-  const timeOfDay = useMemo(() => getTimeOfDay(), []);
+  const utcDate = fromUnixTime(weatherStoreData?.dt);
+  const localDate = toZonedTime(
+    addSeconds(utcDate, weatherStoreData?.timezone),
+    'UTC',
+  );
+
+  const timeOfDay = useMemo(
+    () => getTimeOfDay(localDate.getHours()),
+    [weatherStoreData],
+  );
   const colors = useMemo(
-    () => getGradientColors(weatherType, timeOfDay),
-    [weatherType, timeOfDay],
+    () =>
+      getGradientColors(
+        weatherStoreData.weather?.[0]?.main.toLowerCase() as WeatherType,
+        timeOfDay as TimeOfDay,
+      ),
+    [weatherStoreData, timeOfDay],
   );
 
   return (

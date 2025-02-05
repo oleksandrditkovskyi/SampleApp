@@ -1,10 +1,9 @@
 import { Dispatch, memo, SetStateAction, useEffect, useState } from 'react';
 import { Image, Pressable, View } from 'react-native';
 
-import { getCityWeather } from './api';
-
 import { BaseText } from '@components/BaseText';
 
+import { getCityWeather } from '@utils/api';
 import { commonValues } from '@utils/commonValues';
 import { removeFromStorage, saveToStorage } from '@utils/storageService';
 import { STORAGE_KEYS } from '@utils/storageService/storageKeys';

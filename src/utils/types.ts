@@ -5,9 +5,11 @@ export type WeatherDataProps = {
     lat: number;
     lon: number;
   };
+  timezone: number;
   weather: {
     icon: string;
     description: string;
+    main: string;
   }[];
   dt: number;
   main: {

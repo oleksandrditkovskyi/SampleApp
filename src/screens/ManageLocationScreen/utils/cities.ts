@@ -7,6 +7,7 @@ export const cities = [
   { label: 'Manchester', value: 'Manchester' },
   { label: 'New York', value: 'New York' },
   { label: 'Rome', value: 'Rome' },
+  { label: 'Berlin', value: 'Berlin' },
   { label: 'Rio de Janeiro', value: 'Rio de Janeiro' },
   { label: 'Los Angeles', value: 'Los Angeles' },
   { label: 'Liverpool', value: 'Liverpool' },

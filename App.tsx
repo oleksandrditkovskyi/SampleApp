@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { StyleSheet } from 'react-native';
+import { PermissionsAndroid, StyleSheet } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -9,7 +9,7 @@ import { AppNavigator } from '@navigation/AppNavigator';
 import ErrorBoundary from '@components/ErrorBoundary';
 import { GradientBackground } from '@components/GradientBackground';
 
-import { getWeather } from '@utils/api';
+import { getCityWeather, getWeather } from '@utils/api';
 import { commonValues } from '@utils/commonValues';
 import { getFromStorage } from '@utils/storageService';
 import { STORAGE_KEYS } from '@utils/storageService/storageKeys';
@@ -18,15 +18,39 @@ import { WeatherDataProps, WeatherStore } from '@utils/types';
 import { useWeatherStore } from '@store/weatherStore';
 
 const App = () => {
-  const { setWeatherStoreData, setLoading, isGeolocation, setIsGeolocation } =
+  const { setLoading, isGeolocation, setIsGeolocation, setWeatherStoreData } =
     useWeatherStore() as WeatherStore;
 
-  const fetchWeather = async (lat: number, lon: number) => {
+  const requestLocationPermission = async () => {
+    if (!commonValues.IS_IOS) {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      );
+
+      return granted === PermissionsAndroid.RESULTS.GRANTED;
+    }
+    return true;
+  };
+
+  const fetchWeatherByLocation = async (lat: number, lon: number) => {
     setLoading(true);
     try {
-      const data = await getWeather(lat, lon);
+      const dataLocation = await getWeather(lat, lon);
 
-      setWeatherStoreData(data);
+      setWeatherStoreData(dataLocation);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchWeatherByCity = async (city: string) => {
+    setLoading(true);
+    try {
+      const dataCity = await getCityWeather(city);
+
+      setWeatherStoreData(dataCity);
     } catch (error) {
       console.error(error);
     } finally {
@@ -35,13 +59,19 @@ const App = () => {
   };
 
   const getLocation = async () => {
+    const hasPermission = await requestLocationPermission();
+
+    if (!hasPermission) {
+      return null;
+    }
+
     const city = await getFromStorage<WeatherDataProps>(
       STORAGE_KEYS.SELECTED_CITY_WEATHER,
     );
     const citiesList = await getFromStorage<string[]>(STORAGE_KEYS.CITIES_LIST);
 
     if (citiesList?.length && city && !isGeolocation) {
-      fetchWeather(city.coord.lat, city.coord.lon);
+      fetchWeatherByCity(city.name);
     } else {
       Geolocation.getCurrentPosition(
         position => {
@@ -49,7 +79,7 @@ const App = () => {
             lat: position.coords.latitude,
             lon: position.coords.longitude,
           };
-          fetchWeather(coords.lat, coords.lon);
+          fetchWeatherByLocation(coords.lat, coords.lon);
           setIsGeolocation(true);
         },
         error => error,
@@ -69,7 +99,7 @@ const App = () => {
   return (
     <ErrorBoundary>
       <GestureHandlerRootView style={styles.container}>
-        <GradientBackground weatherType="clear">
+        <GradientBackground>
           <SafeAreaView edges={['right', 'left']} style={styles.container}>
             <AppNavigator />
           </SafeAreaView>
