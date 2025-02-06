@@ -81,13 +81,15 @@ export const HomeScreen = () => {
 
       {weatherStoreData.coord && !loading ? (
         <>
-          <View>
-            <BlurView
-              blurAmount={commonValues.SIZE_20}
-              blurType="light"
-              reducedTransparencyFallbackColor="white"
-              style={styles.glassEffect}
-            />
+          <View style={!commonValues.IS_IOS && styles.androidBlur}>
+            {commonValues.IS_IOS && (
+              <BlurView
+                blurAmount={commonValues.SIZE_20}
+                blurType="light"
+                reducedTransparencyFallbackColor="white"
+                style={styles.glassEffect}
+              />
+            )}
 
             <>
               <View style={styles.mainInfoWrap}>
@@ -126,13 +128,20 @@ export const HomeScreen = () => {
           </View>
 
           {next24hoursData.length > 0 && !isLoading && (
-            <View style={styles.flatListWrap}>
-              <BlurView
-                blurAmount={commonValues.SIZE_20}
-                blurType="light"
-                reducedTransparencyFallbackColor="white"
-                style={styles.glassEffect}
-              />
+            <View
+              style={[
+                styles.flatListWrap,
+                !commonValues.IS_IOS && styles.androidBlur,
+              ]}
+            >
+              {commonValues.IS_IOS && (
+                <BlurView
+                  blurAmount={commonValues.SIZE_20}
+                  blurType="light"
+                  reducedTransparencyFallbackColor="white"
+                  style={styles.glassEffect}
+                />
+              )}
 
               <FlatList
                 horizontal
@@ -147,13 +156,20 @@ export const HomeScreen = () => {
           )}
 
           {forecastFor5Days.length > 0 && !isLoading && (
-            <View style={styles.flatListWrap}>
-              <BlurView
-                blurAmount={commonValues.SIZE_20}
-                blurType="light"
-                reducedTransparencyFallbackColor="white"
-                style={styles.glassEffect}
-              />
+            <View
+              style={[
+                styles.flatListWrap,
+                !commonValues.IS_IOS && styles.androidBlur,
+              ]}
+            >
+              {commonValues.IS_IOS && (
+                <BlurView
+                  blurAmount={commonValues.SIZE_20}
+                  blurType="light"
+                  reducedTransparencyFallbackColor="white"
+                  style={styles.glassEffect}
+                />
+              )}
 
               <FlatList
                 data={forecastFor5Days}

@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
     width: 200,
     height: 200,
     overflow: 'hidden',
-    borderRadius: commonValues.HALF,
+    borderRadius: 100,
   },
   dateWrap: {
     flexDirection: 'row',
@@ -38,5 +38,9 @@ export const styles = StyleSheet.create({
   },
   flatList: {
     padding: commonValues.SIZE_16,
+  },
+  androidBlur: {
+    backgroundColor: colors.WHITE_TRANSPARENT_20,
+    borderRadius: commonValues.SIZE_12,
   },
 });

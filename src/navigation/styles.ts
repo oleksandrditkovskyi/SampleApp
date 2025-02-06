@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     width: commonValues.SIZE_30,
     height: commonValues.SIZE_30,
-    borderRadius: commonValues.HALF,
+    borderRadius: commonValues.SIZE_30 / 2,
   },
   headerRightContainerStyle: {
     justifyContent: 'space-between',

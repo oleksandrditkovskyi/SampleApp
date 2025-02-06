@@ -19,7 +19,7 @@ import { SettingsScreen } from '@screens/SettingsScreen';
 import { BaseText } from '@components/BaseText';
 
 import { colors } from '@utils/colors';
-import { hitSlop } from '@utils/commonValues';
+import { commonValues, hitSlop } from '@utils/commonValues';
 import { WeatherStore } from '@utils/types';
 
 import { useWeatherStore } from '@store/weatherStore';
@@ -63,12 +63,14 @@ export const AppNavigator = () => {
   }: {
     navigation: StackNavigationProp<RootStackParamList, 'Home', undefined>;
   }) => ({
+    // headerTitleContainerStyle: { borderWidth: 1, justifyContent: 'center' },
     headerTitle: () => (
       <BaseText
         value={weatherStoreData.name}
         onPress={() => navigation.navigate('ManageLocation')}
       />
     ),
+    headerTitleAlign: 'center' as const,
     headerLeft: () => (
       <Pressable
         hitSlop={hitSlop}
