@@ -1,5 +1,14 @@
 # Weather App
 
+<p align="center">
+  <img src="/src/assets/images/readmeImg/1.png" width="16%">
+  <img src="/src/assets/images/readmeImg/recording2.gif" width="16%">
+  <img src="/src/assets/images/readmeImg/3.png" width="16%">
+  <img src="/src/assets/images/readmeImg/4.png" width="16%">
+  <img src="/src/assets/images/readmeImg/5.png" width="16%">
+  <img src="/src/assets/images/readmeImg/6.png" width="16%">
+</p>
+
 ## Overview
 
 The Weather App is a mobile application built with React Native that provides users with real-time weather information and forecasts. The app leverages geolocation features to deliver localized weather data, allowing users to stay informed about the weather conditions in their area or any city of their choice. The application uses the OpenWeather API to fetch weather data.
