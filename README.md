@@ -30,7 +30,7 @@ The Weather App is a mobile application built with React Native that provides us
 - **React Navigation**: For seamless navigation between different screens.
 - **React Native Geolocation**: For accessing the device's location services.
 - **TypeScript**: For type safety and improved developer experience.
-- **OpenWeather API**: For retrieving weather data. [OpenWeather](https://openweathermap.org/)
+- **OpenWeather API**: For retrieving weather data. <a href="https://openweathermap.org/" target="_blank">OpenWeather</a>
 
 ## Installation
 
