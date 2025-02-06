@@ -1,97 +1,59 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Weather App
 
-# Getting Started
+## Overview
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+The Weather App is a mobile application built with React Native that provides users with real-time weather information and forecasts. The app leverages geolocation features to deliver localized weather data, allowing users to stay informed about the weather conditions in their area or any city of their choice. The application uses the OpenWeather API to fetch weather data.
 
-## Step 1: Start Metro
+## Features
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+- **Real-Time Weather Data**: Users can view current weather conditions, including temperature, humidity, wind speed, and weather descriptions.
+- **5-Day Forecast**: The app provides a detailed 5-day weather forecast, helping users plan their activities accordingly.
+- **Geolocation Support**: The app automatically detects the user's location to provide localized weather information. Users can also manually search for weather data in different cities.
+- **User-Friendly Interface**: The application features a modern and intuitive user interface, making it easy to navigate and access weather information.
+- **Data Storage**: User preferences and selected cities are stored locally, ensuring a personalized experience every time the app is launched.
+- **Error Handling**: The app includes error handling mechanisms to manage API request failures and provide feedback to users.
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+## Technologies Used
 
-```sh
-# Using npm
-npm start
+- **React Native**: For building cross-platform mobile applications.
+- **Zustand**: For state management.
+- **Axios**: For making API requests to fetch weather data.
+- **React Navigation**: For seamless navigation between different screens.
+- **React Native Geolocation**: For accessing the device's location services.
+- **TypeScript**: For type safety and improved developer experience.
+- **OpenWeather API**: For retrieving weather data. [OpenWeather](https://openweathermap.org/)
 
-# OR using Yarn
-yarn start
-```
+## Installation
 
-## Step 2: Build and run your app
+To run the Weather App locally, follow these steps:
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+1. Clone the repository:
 
-### Android
+   ```bash
+   git clone https://github.com/oleksandrditkovskyi/WeatherApp.git
+   ```
 
-```sh
-# Using npm
-npm run android
+2. Navigate to the project directory:
 
-# OR using Yarn
-yarn android
-```
+   ```bash
+   cd WeatherApp
+   ```
 
-### iOS
+3. Install the dependencies:
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+   ```bash
+   npm install
+   ```
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+4. Run the application:
+   ```bash
+   npm start
+   ```
 
-```sh
-bundle install
-```
+## Contributing
 
-Then, and every time you update your native dependencies, run:
+Contributions are welcome! If you have suggestions for improvements or new features, feel free to open an issue or submit a pull request.
 
-```sh
-bundle exec pod install
-```
+## License
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
-```
-
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
-
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
-
-## Step 3: Modify your app
-
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+This project is licensed under the MIT License.
