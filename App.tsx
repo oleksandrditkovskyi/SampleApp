@@ -65,10 +65,10 @@ const App = () => {
       return null;
     }
 
-    const city = await getFromStorage<WeatherDataProps>(
-      STORAGE_KEYS.SELECTED_CITY_WEATHER,
-    );
-    const citiesList = await getFromStorage<string[]>(STORAGE_KEYS.CITIES_LIST);
+    const [city, citiesList] = await Promise.all([
+      getFromStorage<WeatherDataProps>(STORAGE_KEYS.SELECTED_CITY_WEATHER),
+      getFromStorage<string[]>(STORAGE_KEYS.CITIES_LIST),
+    ]);
 
     if (citiesList?.length && city && !isGeolocation) {
       fetchWeatherByCity(city.name);

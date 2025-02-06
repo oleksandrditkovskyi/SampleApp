@@ -3,11 +3,10 @@ import { ActivityIndicator, FlatList, Image, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { BlurView } from '@react-native-community/blur';
-
 import { getWeather5Days } from './api';
 import { format } from 'date-fns';
 
+import { BaseBlurView } from '@components/BaseBlurView';
 import { BaseText } from '@components/BaseText';
 import { Line } from '@components/Line';
 import { AdditionalWeatherInfo } from './components/AdditionalWeatherInfo';
@@ -25,7 +24,6 @@ import { styles } from './styles';
 export const HomeScreen = () => {
   const { weatherStoreData, loading } = useWeatherStore() as WeatherStore;
 
-  const [isLoading, setIsLoading] = useState(true);
   const [forecastFor5Days, setForecastFor5Days] = useState<WeatherDataProps[]>(
     [],
   );
@@ -38,7 +36,6 @@ export const HomeScreen = () => {
     : '';
 
   const fetchWeather = async (lat: number, lon: number) => {
-    setIsLoading(true);
     try {
       const data5Days = await getWeather5Days(lat, lon);
       const data24Hours = data5Days.list.slice(0, 8);
@@ -51,7 +48,6 @@ export const HomeScreen = () => {
     } catch (error) {
       console.error(error);
     } finally {
-      setIsLoading(false);
     }
   };
 
@@ -82,14 +78,7 @@ export const HomeScreen = () => {
       {weatherStoreData.coord && !loading ? (
         <>
           <View style={!commonValues.IS_IOS && styles.androidBlur}>
-            {commonValues.IS_IOS && (
-              <BlurView
-                blurAmount={commonValues.SIZE_20}
-                blurType="light"
-                reducedTransparencyFallbackColor="white"
-                style={styles.glassEffect}
-              />
-            )}
+            <BaseBlurView />
 
             <>
               <View style={styles.mainInfoWrap}>
@@ -127,21 +116,14 @@ export const HomeScreen = () => {
             </>
           </View>
 
-          {next24hoursData.length > 0 && !isLoading && (
+          {next24hoursData.length > 0 && (
             <View
               style={[
                 styles.flatListWrap,
                 !commonValues.IS_IOS && styles.androidBlur,
               ]}
             >
-              {commonValues.IS_IOS && (
-                <BlurView
-                  blurAmount={commonValues.SIZE_20}
-                  blurType="light"
-                  reducedTransparencyFallbackColor="white"
-                  style={styles.glassEffect}
-                />
-              )}
+              <BaseBlurView />
 
               <FlatList
                 horizontal
@@ -155,21 +137,14 @@ export const HomeScreen = () => {
             </View>
           )}
 
-          {forecastFor5Days.length > 0 && !isLoading && (
+          {forecastFor5Days.length > 0 && (
             <View
               style={[
                 styles.flatListWrap,
                 !commonValues.IS_IOS && styles.androidBlur,
               ]}
             >
-              {commonValues.IS_IOS && (
-                <BlurView
-                  blurAmount={commonValues.SIZE_20}
-                  blurType="light"
-                  reducedTransparencyFallbackColor="white"
-                  style={styles.glassEffect}
-                />
-              )}
+              <BaseBlurView />
 
               <FlatList
                 data={forecastFor5Days}

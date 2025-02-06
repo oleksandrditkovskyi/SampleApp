@@ -8,10 +8,6 @@ export const styles = StyleSheet.create({
     flex: commonValues.FLEX_1,
     paddingTop: commonValues.HEADER_HEIGHT + commonValues.SIZE_16,
   },
-  glassEffect: {
-    ...StyleSheet.absoluteFillObject,
-    borderRadius: commonValues.BORDER_RADIUS_16,
-  },
   multiSelectContainerStyle: {
     borderWidth: 0,
     overflow: 'hidden',

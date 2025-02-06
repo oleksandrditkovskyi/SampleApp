@@ -26,10 +26,6 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.WHITE,
     marginHorizontal: commonValues.SIZE_12,
   },
-  glassEffect: {
-    ...StyleSheet.absoluteFillObject,
-    borderRadius: commonValues.BORDER_RADIUS_16,
-  },
   separator: {
     width: commonValues.SIZE_16,
   },

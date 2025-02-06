@@ -7,8 +7,7 @@ import Reanimated, {
 } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { BlurView } from '@react-native-community/blur';
-
+import { BaseBlurView } from '@components/BaseBlurView';
 import { BaseText } from '@components/BaseText';
 import { Line } from '@components/Line';
 
@@ -65,12 +64,7 @@ export const SettingsScreen = () => {
     <View style={styles.container}>
       <SafeAreaView edges={['top']} />
 
-      <BlurView
-        blurAmount={commonValues.SIZE_20}
-        blurType="dark"
-        reducedTransparencyFallbackColor="white"
-        style={styles.glassEffect}
-      />
+      <BaseBlurView dark />
 
       <View style={styles.geoSettings}>
         <BaseText value="Always use geolocation" />

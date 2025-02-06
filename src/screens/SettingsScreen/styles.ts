@@ -8,10 +8,6 @@ export const styles = StyleSheet.create({
     padding: commonValues.SIZE_16,
     paddingTop: commonValues.HEADER_HEIGHT + commonValues.SIZE_16,
   },
-  glassEffect: {
-    ...StyleSheet.absoluteFillObject,
-    borderRadius: commonValues.BORDER_RADIUS_16,
-  },
   geoSettings: {
     alignItems: 'center',
     flexDirection: 'row',

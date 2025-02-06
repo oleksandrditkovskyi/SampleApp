@@ -9,14 +9,12 @@ import Reanimated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import { BlurView } from '@react-native-community/blur';
-
 import { cities } from './utils/cities';
 
+import { BaseBlurView } from '@components/BaseBlurView';
 import { City } from './components/City';
 
 import { colors } from '@utils/colors';
-import { commonValues } from '@utils/commonValues';
 import {
   getFromStorage,
   removeFromStorage,
@@ -127,12 +125,7 @@ export const ManageLocationScreen = () => {
 
   return (
     <View style={styles.container}>
-      <BlurView
-        blurAmount={commonValues.SIZE_20}
-        blurType="dark"
-        reducedTransparencyFallbackColor="white"
-        style={styles.glassEffect}
-      />
+      <BaseBlurView dark />
 
       <MultiSelect
         activeColor={colors.WHITE_TRANSPARENT_40}
