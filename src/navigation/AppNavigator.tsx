@@ -120,6 +120,13 @@ export const AppNavigator = () => {
     ),
   });
 
+  const settingsOptions = {
+    headerBackButtonDisplayMode: 'minimal' as const,
+    headerTitle: () => <BaseText bold value={'Settings'} />,
+    headerTintColor: colors.WHITE,
+    animation: 'slide_from_right' as const,
+  };
+
   return (
     <NavigationContainer
       theme={{
@@ -152,9 +159,7 @@ export const AppNavigator = () => {
         <Stack.Screen
           component={SettingsScreen}
           name="Settings"
-          options={{
-            animation: 'slide_from_right',
-          }}
+          options={settingsOptions}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -96,6 +96,18 @@ const App = () => {
     fetchData();
   }, [isGeolocation]);
 
+  useEffect(() => {
+    const getLocationSettings = async () => {
+      const isAlwaysUseLocation = await getFromStorage(
+        STORAGE_KEYS.IS_ALWAYS_USE_GEOLOCATION,
+      );
+
+      setIsGeolocation(!!isAlwaysUseLocation);
+    };
+
+    getLocationSettings();
+  }, []);
+
   return (
     <ErrorBoundary>
       <GestureHandlerRootView style={styles.container}>

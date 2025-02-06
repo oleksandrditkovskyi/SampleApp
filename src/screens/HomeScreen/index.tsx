@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Image, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -80,92 +80,94 @@ export const HomeScreen = () => {
       <SafeAreaView edges={['top']} />
 
       {weatherStoreData.coord && !loading ? (
-        <View>
-          <BlurView
-            blurAmount={commonValues.SIZE_20}
-            blurType="light"
-            reducedTransparencyFallbackColor="white"
-            style={styles.glassEffect}
-          />
-
+        <>
           <View>
-            <View style={styles.mainInfoWrap}>
-              <Image
-                resizeMode={'contain'}
-                style={styles.img}
-                source={{
-                  uri: `https://openweathermap.org/img/wn/${weatherStoreData.weather[0].icon}@4x.png`,
-                }}
-              />
+            <BlurView
+              blurAmount={commonValues.SIZE_20}
+              blurType="light"
+              reducedTransparencyFallbackColor="white"
+              style={styles.glassEffect}
+            />
 
-              <View style={styles.dateWrap}>
-                <BaseText value={format(localeDate, 'MMM dd')} />
+            <>
+              <View style={styles.mainInfoWrap}>
+                <Image
+                  resizeMode={'contain'}
+                  style={styles.img}
+                  source={{
+                    uri: `https://openweathermap.org/img/wn/${weatherStoreData.weather[0].icon}@4x.png`,
+                  }}
+                />
 
-                <View style={styles.verticalLine} />
+                <View style={styles.dateWrap}>
+                  <BaseText value={format(localeDate, 'MMM dd')} />
 
-                <BaseText value={format(localeDate, 'EEEE')} />
+                  <View style={styles.verticalLine} />
+
+                  <BaseText value={format(localeDate, 'EEEE')} />
+                </View>
+
+                <BaseText
+                  bold
+                  size={commonValues.FONT_SIZE_72}
+                  value={`${Math.round(weatherStoreData.main.temp)}°`}
+                />
+
+                <BaseText value={weatherStoreData.weather[0].description} />
               </View>
 
-              <BaseText
-                bold
-                size={commonValues.FONT_SIZE_72}
-                value={`${Math.round(weatherStoreData.main.temp)}°`}
+              <Line marginHorizontal={commonValues.SIZE_16} />
+
+              <AdditionalWeatherInfo
+                next24hoursData={next24hoursData}
+                weatherData={weatherStoreData}
+              />
+            </>
+          </View>
+
+          {next24hoursData.length > 0 && !isLoading && (
+            <View style={styles.flatListWrap}>
+              <BlurView
+                blurAmount={commonValues.SIZE_20}
+                blurType="light"
+                reducedTransparencyFallbackColor="white"
+                style={styles.glassEffect}
               />
 
-              <BaseText value={weatherStoreData.weather[0].description} />
+              <FlatList
+                horizontal
+                data={next24hoursData}
+                ItemSeparatorComponent={ItemSeparatorComponent}
+                keyExtractor={keyExtractor}
+                renderItem={renderItem24Hours}
+                showsHorizontalScrollIndicator={false}
+                style={styles.flatList}
+              />
             </View>
+          )}
 
-            <Line marginHorizontal={commonValues.SIZE_16} />
+          {forecastFor5Days.length > 0 && !isLoading && (
+            <View style={styles.flatListWrap}>
+              <BlurView
+                blurAmount={commonValues.SIZE_20}
+                blurType="light"
+                reducedTransparencyFallbackColor="white"
+                style={styles.glassEffect}
+              />
 
-            <AdditionalWeatherInfo
-              next24hoursData={next24hoursData}
-              weatherData={weatherStoreData}
-            />
-          </View>
-        </View>
+              <FlatList
+                data={forecastFor5Days}
+                ItemSeparatorComponent={ItemSeparatorComponent}
+                keyExtractor={keyExtractor}
+                renderItem={renderItem5Days}
+                scrollEnabled={false}
+                style={styles.flatList}
+              />
+            </View>
+          )}
+        </>
       ) : (
         <ActivityIndicator color={colors.WHITE} />
-      )}
-
-      {next24hoursData.length > 0 && !isLoading && (
-        <View style={styles.flatListWrap}>
-          <BlurView
-            blurAmount={commonValues.SIZE_20}
-            blurType="light"
-            reducedTransparencyFallbackColor="white"
-            style={styles.glassEffect}
-          />
-
-          <FlatList
-            horizontal
-            data={next24hoursData}
-            ItemSeparatorComponent={ItemSeparatorComponent}
-            keyExtractor={keyExtractor}
-            renderItem={renderItem24Hours}
-            showsHorizontalScrollIndicator={false}
-            style={styles.flatList}
-          />
-        </View>
-      )}
-
-      {forecastFor5Days.length > 0 && !isLoading && (
-        <View style={styles.flatListWrap}>
-          <BlurView
-            blurAmount={commonValues.SIZE_20}
-            blurType="light"
-            reducedTransparencyFallbackColor="white"
-            style={styles.glassEffect}
-          />
-
-          <FlatList
-            data={forecastFor5Days}
-            ItemSeparatorComponent={ItemSeparatorComponent}
-            keyExtractor={keyExtractor}
-            renderItem={renderItem5Days}
-            scrollEnabled={false}
-            style={styles.flatList}
-          />
-        </View>
       )}
 
       <SafeAreaView edges={['bottom']} />
