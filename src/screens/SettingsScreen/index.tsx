@@ -15,6 +15,9 @@ import { colors } from '@utils/colors';
 import { commonValues } from '@utils/commonValues';
 import { getFromStorage, saveToStorage } from '@utils/storageService';
 import { STORAGE_KEYS } from '@utils/storageService/storageKeys';
+import { WeatherStore } from '@utils/types';
+
+import { useWeatherStore } from '@store/weatherStore';
 
 import { GitHubIcon } from '@assets/images/svg/GitHubIcon';
 import { LinkedInIcon } from '@assets/images/svg/LinkedInIcon';
@@ -22,6 +25,8 @@ import { LinkedInIcon } from '@assets/images/svg/LinkedInIcon';
 import { styles } from './styles';
 
 export const SettingsScreen = () => {
+  const { isGeolocation, setIsGeolocation } = useWeatherStore() as WeatherStore;
+
   const [isEnabled, setIsEnabled] = useState(false);
   const [isAboutVisible, seyIsAboutVisible] = useState(false);
 
@@ -45,6 +50,9 @@ export const SettingsScreen = () => {
     setIsEnabled(previousState => {
       const newState = !previousState;
       saveToStorage(STORAGE_KEYS.IS_ALWAYS_USE_GEOLOCATION, newState);
+      if (!isGeolocation && newState) {
+        setIsGeolocation(true);
+      }
       return newState;
     });
   };
