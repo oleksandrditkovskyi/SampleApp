@@ -17,4 +17,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  aboutWrap: { gap: commonValues.SIZE_12 },
+  aboutText: { marginBottom: commonValues.SIZE_12 },
+  iconsWrap: { flexDirection: 'row' },
 });
