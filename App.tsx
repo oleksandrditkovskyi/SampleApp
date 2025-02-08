@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { PermissionsAndroid, StyleSheet } from 'react-native';
+import BootSplash from 'react-native-bootsplash';
 import Geolocation from 'react-native-geolocation-service';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -34,6 +35,7 @@ const App = () => {
 
   const fetchWeatherByLocation = async (lat: number, lon: number) => {
     setLoading(true);
+
     try {
       const dataLocation = await getWeather(lat, lon);
 
@@ -47,6 +49,7 @@ const App = () => {
 
   const fetchWeatherByCity = async (city: string) => {
     setLoading(true);
+
     try {
       const dataCity = await getCityWeather(city);
 
@@ -106,6 +109,10 @@ const App = () => {
     };
 
     getLocationSettings();
+  }, []);
+
+  useEffect(() => {
+    BootSplash.hide({ fade: true });
   }, []);
 
   return (
