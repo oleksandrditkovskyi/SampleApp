@@ -82,7 +82,13 @@ export const AppNavigator = () => {
     headerRightContainerStyle: styles.headerRightContainerStyle,
     headerRight: () => (
       <>
-        <Reanimated.View style={[styles.locationCircle, animatedStyle]}>
+        <Reanimated.View
+          style={[
+            styles.locationCircle,
+            animatedStyle,
+            !weatherStoreData.name && styles.noData,
+          ]}
+        >
           <Pressable hitSlop={hitSlop} onPress={onPressLocationCircle}>
             <LocationMarkerIcon />
           </Pressable>

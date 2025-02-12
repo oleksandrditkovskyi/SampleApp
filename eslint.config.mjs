@@ -1,10 +1,12 @@
 import { fixupPluginRules } from '@eslint/compat';
+import deMorgan from 'eslint-plugin-de-morgan';
 import react from 'eslint-plugin-react';
 import reactNative from 'eslint-plugin-react-native';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import ts from 'typescript-eslint';
 
 export default ts.config(ts.configs.strict, ts.configs.stylistic, [
+  deMorgan.configs.recommended,
   {
     plugins: {
       react: react,
@@ -15,7 +17,6 @@ export default ts.config(ts.configs.strict, ts.configs.stylistic, [
       'react-native/no-unused-styles': 2,
       'react-native/no-raw-text': 2,
       'react-native/no-single-element-style-arrays': 2,
-
       '@typescript-eslint/ban-ts-comment': 'off',
       '@typescript-eslint/consistent-type-definitions': 'off',
       '@typescript-eslint/no-explicit-any': 'off',

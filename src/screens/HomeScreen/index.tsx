@@ -1,10 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Image, View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import { Pressable, ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
+
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 import { getWeather5Days } from './api';
 import { format } from 'date-fns';
+
+import { RootStackParamList } from '@navigation/AppNavigator';
 
 import { BaseBlurView } from '@components/BaseBlurView';
 import { BaseText } from '@components/BaseText';
@@ -19,9 +24,13 @@ import { WeatherDataProps, WeatherStore } from '@utils/types';
 
 import { useWeatherStore } from '@store/weatherStore';
 
+import { ManageLocationIcon } from '@assets/images/svg/ManageLocationIcon';
+
 import { styles } from './styles';
 
 export const HomeScreen = () => {
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+
   const { weatherStoreData, loading } = useWeatherStore() as WeatherStore;
 
   const [forecastFor5Days, setForecastFor5Days] = useState<WeatherDataProps[]>(
@@ -34,6 +43,8 @@ export const HomeScreen = () => {
   const localeDate = weatherStoreData?.dt
     ? new Date(weatherStoreData?.dt * 1000)
     : '';
+
+  const onPressPlus = () => navigation.navigate('ManageLocation');
 
   const fetchWeather = async (lat: number, lon: number) => {
     try {
@@ -75,88 +86,94 @@ export const HomeScreen = () => {
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       <SafeAreaView edges={['top']} />
 
-      {weatherStoreData.coord && !loading ? (
-        <>
-          <View style={!commonValues.IS_IOS && styles.androidBlur}>
-            <BaseBlurView />
+      {!loading ? (
+        weatherStoreData.coord ? (
+          <>
+            <View style={!commonValues.IS_IOS && styles.androidBlur}>
+              <BaseBlurView />
 
-            <>
-              <View style={styles.mainInfoWrap}>
-                <Image
-                  resizeMode={'contain'}
-                  style={styles.img}
-                  source={{
-                    uri: `https://openweathermap.org/img/wn/${weatherStoreData.weather[0].icon}@4x.png`,
-                  }}
-                />
+              <>
+                <View style={styles.mainInfoWrap}>
+                  <Image
+                    resizeMode={'contain'}
+                    style={styles.img}
+                    source={{
+                      uri: `https://openweathermap.org/img/wn/${weatherStoreData.weather[0].icon}@4x.png`,
+                    }}
+                  />
 
-                <View style={styles.dateWrap}>
-                  <BaseText value={format(localeDate, 'MMM dd')} />
+                  <View style={styles.dateWrap}>
+                    <BaseText value={format(localeDate, 'MMM dd')} />
 
-                  <View style={styles.verticalLine} />
+                    <View style={styles.verticalLine} />
 
-                  <BaseText value={format(localeDate, 'EEEE')} />
+                    <BaseText value={format(localeDate, 'EEEE')} />
+                  </View>
+
+                  <BaseText
+                    bold
+                    size={commonValues.FONT_SIZE_72}
+                    value={`${Math.round(weatherStoreData.main.temp)}°`}
+                  />
+
+                  <BaseText value={weatherStoreData.weather[0].description} />
                 </View>
 
-                <BaseText
-                  bold
-                  size={commonValues.FONT_SIZE_72}
-                  value={`${Math.round(weatherStoreData.main.temp)}°`}
+                <Line marginHorizontal={commonValues.SIZE_16} />
+
+                <AdditionalWeatherInfo
+                  next24hoursData={next24hoursData}
+                  weatherData={weatherStoreData}
                 />
+              </>
+            </View>
 
-                <BaseText value={weatherStoreData.weather[0].description} />
+            {next24hoursData.length > 0 && (
+              <View
+                style={[
+                  styles.flatListWrap,
+                  !commonValues.IS_IOS && styles.androidBlur,
+                ]}
+              >
+                <BaseBlurView />
+
+                <FlatList
+                  horizontal
+                  data={next24hoursData}
+                  ItemSeparatorComponent={ItemSeparatorComponent}
+                  keyExtractor={keyExtractor}
+                  renderItem={renderItem24Hours}
+                  showsHorizontalScrollIndicator={false}
+                  style={styles.flatList}
+                />
               </View>
+            )}
 
-              <Line marginHorizontal={commonValues.SIZE_16} />
+            {forecastFor5Days.length > 0 && (
+              <View
+                style={[
+                  styles.flatListWrap,
+                  !commonValues.IS_IOS && styles.androidBlur,
+                ]}
+              >
+                <BaseBlurView />
 
-              <AdditionalWeatherInfo
-                next24hoursData={next24hoursData}
-                weatherData={weatherStoreData}
-              />
-            </>
-          </View>
-
-          {next24hoursData.length > 0 && (
-            <View
-              style={[
-                styles.flatListWrap,
-                !commonValues.IS_IOS && styles.androidBlur,
-              ]}
-            >
-              <BaseBlurView />
-
-              <FlatList
-                horizontal
-                data={next24hoursData}
-                ItemSeparatorComponent={ItemSeparatorComponent}
-                keyExtractor={keyExtractor}
-                renderItem={renderItem24Hours}
-                showsHorizontalScrollIndicator={false}
-                style={styles.flatList}
-              />
-            </View>
-          )}
-
-          {forecastFor5Days.length > 0 && (
-            <View
-              style={[
-                styles.flatListWrap,
-                !commonValues.IS_IOS && styles.androidBlur,
-              ]}
-            >
-              <BaseBlurView />
-
-              <FlatList
-                data={forecastFor5Days}
-                ItemSeparatorComponent={ItemSeparatorComponent}
-                keyExtractor={keyExtractor}
-                renderItem={renderItem5Days}
-                scrollEnabled={false}
-                style={styles.flatList}
-              />
-            </View>
-          )}
-        </>
+                <FlatList
+                  data={forecastFor5Days}
+                  ItemSeparatorComponent={ItemSeparatorComponent}
+                  keyExtractor={keyExtractor}
+                  renderItem={renderItem5Days}
+                  scrollEnabled={false}
+                  style={styles.flatList}
+                />
+              </View>
+            )}
+          </>
+        ) : (
+          <Pressable style={styles.plusBtn} onPress={onPressPlus}>
+            <ManageLocationIcon />
+          </Pressable>
+        )
       ) : (
         <ActivityIndicator color={colors.WHITE} />
       )}

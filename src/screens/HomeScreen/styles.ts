@@ -39,4 +39,10 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.WHITE_TRANSPARENT_20,
     borderRadius: commonValues.SIZE_12,
   },
+  plusBtn: {
+    alignItems: 'center',
+    padding: commonValues.SIZE_16,
+    borderRadius: commonValues.BORDER_RADIUS_12,
+    backgroundColor: colors.WHITE_TRANSPARENT_20,
+  },
 });

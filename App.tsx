@@ -82,10 +82,15 @@ const App = () => {
             lat: position.coords.latitude,
             lon: position.coords.longitude,
           };
+
           fetchWeatherByLocation(coords.lat, coords.lon);
           setIsGeolocation(true);
         },
-        error => error,
+        error => {
+          if (error.code === 1) {
+            console.error(error.message);
+          }
+        },
         { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
       );
     }

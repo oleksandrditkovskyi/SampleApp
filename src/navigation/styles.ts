@@ -15,4 +15,7 @@ export const styles = StyleSheet.create({
   headerRightContainerStyle: {
     justifyContent: 'space-between',
   },
+  noData: {
+    opacity: 0,
+  },
 });

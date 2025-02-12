@@ -23,7 +23,8 @@ export const City = memo(({ item, array, setSelectedCities }: Props) => {
     useWeatherStore() as WeatherStore;
   const [data, setData] = useState<WeatherDataProps>();
 
-  const isSelected = weatherStoreData.name.toLowerCase() === item.toLowerCase();
+  const isSelected =
+    weatherStoreData?.name?.toLowerCase() === item?.toLowerCase();
 
   const onPress = async () => {
     if (data && !isSelected) {
