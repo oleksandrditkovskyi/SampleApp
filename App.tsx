@@ -4,6 +4,7 @@ import BootSplash from 'react-native-bootsplash';
 import Geolocation from 'react-native-geolocation-service';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Toast from 'react-native-toast-message';
 
 import { AppNavigator } from '@navigation/AppNavigator';
 
@@ -42,6 +43,12 @@ const App = () => {
       setWeatherStoreData(dataLocation);
     } catch (error) {
       console.error(error);
+
+      Toast.show({
+        type: 'error',
+        text1: 'Something went wrong.',
+        position: 'bottom',
+      });
     } finally {
       setLoading(false);
     }
@@ -56,6 +63,12 @@ const App = () => {
       setWeatherStoreData(dataCity);
     } catch (error) {
       console.error(error);
+
+      Toast.show({
+        type: 'error',
+        text1: 'Something went wrong.',
+        position: 'bottom',
+      });
     } finally {
       setLoading(false);
     }
@@ -88,7 +101,14 @@ const App = () => {
         },
         error => {
           if (error.code === 1) {
-            console.error(error.message);
+            Toast.show({
+              type: 'error',
+              text1: error.message,
+              text2:
+                'Please allow access to your location to provide accurate weather information.',
+              position: 'bottom',
+            });
+            setIsGeolocation(false);
           }
         },
         { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
@@ -126,6 +146,8 @@ const App = () => {
         <GradientBackground>
           <SafeAreaView edges={['right', 'left']} style={styles.container}>
             <AppNavigator />
+
+            <Toast />
           </SafeAreaView>
         </GradientBackground>
       </GestureHandlerRootView>

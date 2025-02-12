@@ -1,5 +1,6 @@
 import { Dispatch, memo, SetStateAction, useEffect, useState } from 'react';
 import { Image, Pressable, View } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 import { BaseText } from '@components/BaseText';
 
@@ -43,9 +44,15 @@ export const City = memo(({ item, array, setSelectedCities }: Props) => {
 
       setData(res);
     } catch (e) {
-      // TODO: add errors handling
-      setSelectedCities(array.filter(el => el !== item));
       console.error(e);
+
+      Toast.show({
+        type: 'error',
+        text1: 'Something went wrong.',
+        position: 'bottom',
+      });
+
+      setSelectedCities(array.filter(el => el !== item));
     }
   };
 

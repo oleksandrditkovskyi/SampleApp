@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Image, View } from 'react-native';
 import { Pressable, ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Toast from 'react-native-toast-message';
 
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -58,6 +59,12 @@ export const HomeScreen = () => {
       setNext24hoursData(data24Hours);
     } catch (error) {
       console.error(error);
+
+      Toast.show({
+        type: 'error',
+        text1: 'Something went wrong.',
+        position: 'bottom',
+      });
     } finally {
     }
   };
