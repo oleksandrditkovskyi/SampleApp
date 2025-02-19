@@ -1,3 +1,4 @@
+![React Native](https://img.shields.io/badge/React_Native-0.77-blue?logo=react)
 # Weather App
 
 <p align="center">
