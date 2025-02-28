@@ -54,6 +54,19 @@ To run the Weather App locally, follow these steps:
    ```bash
    npm install
    ```
+   
+   While developing for iOS, make sure to install pods first before running the app:
+
+   ```bash
+   cd ios && pod install && cd ..
+   ```
+
+4. Add .env file:
+
+   ```bash
+   BASE_URL=https://api.openweathermap.org/data/2.5/
+   API_KEY=youAPIKey
+   ```
 
 4. Run the application:
    ```bash
