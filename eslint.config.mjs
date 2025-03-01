@@ -1,6 +1,7 @@
 import { fixupPluginRules } from '@eslint/compat';
 import deMorgan from 'eslint-plugin-de-morgan';
 import react from 'eslint-plugin-react';
+import reactCompiler from 'eslint-plugin-react-compiler';
 import reactNative from 'eslint-plugin-react-native';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import ts from 'typescript-eslint';
@@ -9,11 +10,13 @@ export default ts.config(ts.configs.strict, ts.configs.stylistic, [
   deMorgan.configs.recommended,
   {
     plugins: {
+      'react-compiler': reactCompiler,
       react: react,
       'react-native': fixupPluginRules(reactNative),
       'simple-import-sort': simpleImportSort,
     },
     rules: {
+      'react-compiler/react-compiler': 'error',
       'react-native/no-unused-styles': 2,
       'react-native/no-raw-text': 2,
       'react-native/no-single-element-style-arrays': 2,
